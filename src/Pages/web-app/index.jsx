@@ -3,7 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
-import logoSalleIcon from "../../assets/salle-marker.png";
+import logoSalleIcon from "../../assets/salle_marker.png";
 import Sidebar from "../../Components/layout/sidebar/web-app/index";
 import CategoryBtn from "../../Components/basic/buttons/ButtonCategory";
 import { AllCategories } from "../../mocks/AllCategories";
