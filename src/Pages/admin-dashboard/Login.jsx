@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import miImagen from '../../assets/salle_logo.png';
+import React, { useState } from "react";
+import miImagen from "../../Assets/salle_logo2.png";
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -14,26 +14,29 @@ function Login() {
   };
 
   const handleLogin = () => {
-    if (username === 'admin' && password === 'admin') {
+    if (username === "admin" && password === "admin") {
       // Las credenciales son válidas, puedes redirigir al usuario o realizar otras acciones
-      console.log('Inicio de sesión exitoso');
+      console.log("Inicio de sesión exitoso");
     } else {
       // Las credenciales son incorrectas, puedes mostrar un mensaje de error
-      console.log('Credenciales incorrectas');
+      console.log("Credenciales incorrectas");
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-[600px] p-4 rounded-lg">
-        <div className='flex justify-center mb-10'>
-          <img src={miImagen} className='w-28 h-28' alt='' />
+        <div className="flex justify-center mb-10">
+          <img src={miImagen} className="w-28 h-28" alt="" />
         </div>
         <h1 className="text-3xl text-gray-900 font-bold">Iniciar Sesión</h1>
         <h1 className="text-gray-500 mb-4">Ingrese su correo y contraseña</h1>
         <form>
           <div className="mb-4">
-            <label className="text-xs block text-gray-700 font-bold mb-2" htmlFor="username">
+            <label
+              className="text-xs block text-gray-700 font-bold mb-2"
+              htmlFor="username"
+            >
               Correo electrónico
             </label>
             <input
@@ -41,12 +44,15 @@ function Login() {
               id="username"
               type="text"
               placeholder="Escribe tu correo electrónico aquí..."
-              value={username} 
-              onChange={handleUsernameChange} 
+              value={username}
+              onChange={handleUsernameChange}
             />
           </div>
           <div className="mb-6">
-            <label className="text-xs block text-gray-700 font-bold mb-2" htmlFor="password">
+            <label
+              className="text-xs block text-gray-700 font-bold mb-2"
+              htmlFor="password"
+            >
               Contraseña
             </label>
             <input
@@ -54,12 +60,15 @@ function Login() {
               id="password"
               type="password"
               placeholder="Escribe tu contraseña aquí..."
-              value={password} 
+              value={password}
               onChange={handlePasswordChange}
             />
           </div>
           <div className="flex flex-col">
-            <a className="flex justify-end mb-5 inline-block align-baseline underline text-sm text-sm text-zinc-800 hover:text-zinc-600" href="#">
+            <a
+              className="flex justify-end mb-5 inline-block align-baseline underline text-sm text-sm text-zinc-800 hover:text-zinc-600"
+              href="#"
+            >
               ¿Olvidaste tu contraseña?
             </a>
             <button
