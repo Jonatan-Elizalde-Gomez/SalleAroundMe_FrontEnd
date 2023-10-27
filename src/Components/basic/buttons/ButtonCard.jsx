@@ -1,6 +1,6 @@
 import React from "react";
-import deleteIcon from "../../Assets/delete_icon.svg";
-import editIcon from "../../Assets/edit_icon.svg";
+import deleteIcon from "../../../assets/delete_icon.svg";
+import editIcon from "../../../assets/edit_icon.svg";
 
 export default function CardButtons({ data }) {
   return (

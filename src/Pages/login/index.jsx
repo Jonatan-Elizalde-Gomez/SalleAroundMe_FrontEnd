@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import miImagen from "../../Assets/salle_logo2.png";
+import LogoSalle from "../../../src/assets/salle_logo2.png";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -27,7 +27,7 @@ function Login() {
     <div className="flex justify-center items-center h-screen">
       <div className="w-[600px] p-4 rounded-lg">
         <div className="flex justify-center mb-10">
-          <img src={miImagen} className="w-28 h-28" alt="" />
+          <img src={LogoSalle} className="w-28 h-28" alt="" />
         </div>
         <h1 className="text-3xl text-gray-900 font-bold">Iniciar Sesión</h1>
         <h1 className="text-gray-500 mb-4">Ingrese su correo y contraseña</h1>

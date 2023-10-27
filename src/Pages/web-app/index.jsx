@@ -3,10 +3,9 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
-import logoSalleIcon from "../../assets/salleMarker.png";
-
-import Sidebar from "./sidebar";
-import CategoryBtn from "./categoryBtn";
+import logoSalleIcon from "../../assets/salle-marker.png";
+import Sidebar from "../../Components/layout/sidebar/web-app/index";
+import CategoryBtn from "../../Components/basic/buttons/ButtonCategory";
 import { AllCategories } from "../../mocks/AllCategories";
 
 function WebApp() {
@@ -59,10 +58,12 @@ function WebApp() {
             position={[21.15235039789169, -101.71130042536149]}
             icon={salleIcon}
           >
-            <Popup><div>
-              <h5>Universidad La Salle Bajío</h5>
-              <p>Campus Campestre</p>
-            </div></Popup>
+            <Popup>
+              <div>
+                <h5>Universidad La Salle Bajío</h5>
+                <p>Campus Campestre</p>
+              </div>
+            </Popup>
           </Marker>
 
           {location && (

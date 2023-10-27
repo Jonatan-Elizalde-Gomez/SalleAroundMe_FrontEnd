@@ -1,5 +1,5 @@
 import React from "react";
-import CardButtons from "./card_buttons";
+import CardButtons from "../buttons/ButtonCard";
 
 export default function CardAttractive({ data }) {
   return (

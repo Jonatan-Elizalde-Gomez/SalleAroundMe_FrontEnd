@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SalleLogo from "../../Assets/salle_logo.png";
-import profilePhoto from "../../Assets/profile-photo-test.jpg";
-import personasSVG from "../../Assets/personas.svg";
-import plusSVG from "../../Assets/plus.svg";
+import salleLogo from "../../../assets/salle_logo.png";
+import profilePhoto from "../../../assets/profile_photo_test.jpg";
+import personasSVG from "../../../assets/people_icon.svg";
+import plusSVG from "../../../assets/plus_icon.svg";
 
 const PageLayout = ({ children }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -27,7 +27,7 @@ const PageLayout = ({ children }) => {
     <div className="h-screen flex bg-sw-main-darker font-inter">
       <div className="bg-white relative w-56 px-7 border-x-2 border-sw-main-darker">
         <img
-          src={SalleLogo}
+          src={salleLogo}
           alt="Mi Imagen"
           style={{ width: "136px", height: "46.55px" }}
           className="mt-8"

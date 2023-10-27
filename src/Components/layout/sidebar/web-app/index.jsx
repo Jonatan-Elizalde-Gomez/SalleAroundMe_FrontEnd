@@ -1,11 +1,10 @@
-import SalleLogo from "../../../assets/salle_logo.svg"
-import SearchIcon from "../../../assets/search_icon.svg";
-import RemoveIcon from "../../../assets/remove_icon.svg";
+import SalleLogo from "../../../../assets/salle_logo.svg";
+import searchIcon from "../../../../assets/search_icon.svg";
+import removeIcon from "../../../../assets/remove_icon.svg";
 import Dropdown from "./Dropdown";
-import { AllAttractions } from "../../../mocks/AllAttractions";
+import { AllAttractions } from "../../../../mocks/AllAttractions";
 import AttractionDetail from "./AttractionDetail";
-import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
-
+import { AttractionDetailMock } from "../../../../mocks/AttractionDetail";
 
 function Sidebar() {
   return (
@@ -23,10 +22,10 @@ function Sidebar() {
             placeholder="Buscar atracción por nombre..."
           />
           <button className="absolute right-16 top-3">
-            <img className="w-6" src={SearchIcon} alt="search" />
+            <img className="w-6" src={searchIcon} alt="search" />
           </button>
           <button className="absolute right-5 top-3">
-            <img className="w-6" src={RemoveIcon} alt="remove" />
+            <img className="w-6" src={removeIcon} alt="remove" />
           </button>
         </div>
       </div>
@@ -36,8 +35,8 @@ function Sidebar() {
           <Dropdown key={attraction.id} category={attraction.category} attraction={attraction.attractions} />
         ))} */}
         {
-          <AttractionDetail 
-            id={AttractionDetailMock.id} 
+          <AttractionDetail
+            id={AttractionDetailMock.id}
             category={AttractionDetailMock.category}
             name={AttractionDetailMock.name}
             description={AttractionDetailMock.description}
@@ -58,4 +57,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar
+export default Sidebar;

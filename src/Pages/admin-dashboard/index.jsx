@@ -1,8 +1,8 @@
 // src/App.js
 import React from "react";
-import PageLayout from "./admin-dashboard/PageLayout";
-import CardAttractive from "../Components/Cards/card_attractive";
-import { attractive } from "../Mocks/Attractive";
+import PageLayout from "../../Components/layout/admin-dashboard/index";
+import CardAttractive from "../../Components/basic/cards/CardAttractive";
+import { attractive } from "../../mocks/Attractive";
 
 function AdminDashboard() {
   const cardData = Array.from({ length: 10 }, (_, i) => ({
