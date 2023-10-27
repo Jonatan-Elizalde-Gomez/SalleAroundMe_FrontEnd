@@ -1,6 +1,6 @@
 import SalleLogo from "../../../../assets/salle_logo.svg";
-import searchIcon from "../../../../assets/search_icon.svg";
-import removeIcon from "../../../../assets/remove_icon.svg";
+import SearchIcon from "../../../../assets/search_icon.svg";
+import RemoveIcon from "../../../../assets/remove_icon.svg";
 import Dropdown from "./Dropdown";
 import { AllAttractions } from "../../../../mocks/AllAttractions";
 import AttractionDetail from "./AttractionDetail";
@@ -22,19 +22,23 @@ function Sidebar() {
             placeholder="Buscar atracción por nombre..."
           />
           <button className="absolute right-16 top-3">
-            <img className="w-6" src={searchIcon} alt="search" />
+            <img className="w-6" src={SearchIcon} alt="search" />
           </button>
           <button className="absolute right-5 top-3">
-            <img className="w-6" src={removeIcon} alt="remove" />
+            <img className="w-6" src={RemoveIcon} alt="remove" />
           </button>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-scroll">
-        {/* {AllAttractions.map((attraction) => (
-          <Dropdown key={attraction.id} category={attraction.category} attraction={attraction.attractions} />
-        ))} */}
-        {
+        {AllAttractions.map((attraction) => (
+          <Dropdown
+            key={attraction.id}
+            category={attraction.category}
+            attraction={attraction.attractions}
+          />
+        ))}
+        {/* {
           <AttractionDetail
             id={AttractionDetailMock.id}
             category={AttractionDetailMock.category}
@@ -51,7 +55,7 @@ function Sidebar() {
             images={AttractionDetailMock.images}
             similar={AttractionDetailMock.similar}
           />
-        }
+        } */}
       </div>
     </div>
   );
