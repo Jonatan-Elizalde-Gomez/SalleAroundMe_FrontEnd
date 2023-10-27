@@ -3,6 +3,8 @@ import SearchIcon from "../../../assets/search_icon.svg";
 import RemoveIcon from "../../../assets/remove_icon.svg";
 import Dropdown from "./Dropdown";
 import { AllAttractions } from "../../../mocks/AllAttractions";
+import AttractionDetail from "./AttractionDetail";
+import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
 
 
 function Sidebar() {
@@ -30,9 +32,27 @@ function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-scroll">
-        {AllAttractions.map((attraction) => (
+        {/* {AllAttractions.map((attraction) => (
           <Dropdown key={attraction.id} category={attraction.category} attraction={attraction.attractions} />
-        ))}
+        ))} */}
+        {
+          <AttractionDetail 
+            id={AttractionDetailMock.id} 
+            category={AttractionDetailMock.category}
+            name={AttractionDetailMock.name}
+            description={AttractionDetailMock.description}
+            autor={AttractionDetailMock.autor}
+            tecnique={AttractionDetailMock.tecnique}
+            material={AttractionDetailMock.material}
+            size={AttractionDetailMock.size}
+            style={AttractionDetailMock.style}
+            country={AttractionDetailMock.country}
+            city={AttractionDetailMock.city}
+            address={AttractionDetailMock.address}
+            images={AttractionDetailMock.images}
+            similar={AttractionDetailMock.similar}
+          />
+        }
       </div>
     </div>
   );
