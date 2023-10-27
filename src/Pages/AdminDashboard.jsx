@@ -1,7 +1,8 @@
 // src/App.js
-import React from 'react';
-import PageLayout from './PageLayout';
-import Card from './Card';
+import React from "react";
+import PageLayout from "./admin-dashboard/PageLayout";
+import CardAttractive from "../Components/Cards/card_attractive";
+import { attractive } from "../Mocks/Attractive";
 
 function AdminDashboard() {
   const cardData = Array.from({ length: 10 }, (_, i) => ({
@@ -12,11 +13,7 @@ function AdminDashboard() {
   return (
     <PageLayout>
       {cardData.map((card, index) => (
-        <Card
-          key={index}
-          title={card.title}
-          content={card.content}
-        />
+        <CardAttractive key={index} data={attractive} />
       ))}
     </PageLayout>
   );

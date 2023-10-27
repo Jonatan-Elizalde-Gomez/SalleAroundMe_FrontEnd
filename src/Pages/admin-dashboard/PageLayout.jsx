@@ -86,7 +86,7 @@ const PageLayout = ({ children }) => {
 
       <div className="flex-1 overflow-y-auto border-y-2 border-sw-main-darker">
         {/* Rectángulo superior con título (fijo en la parte superior) */}
-        <div className="bg-white bg-gray-border h-36 mb-4 flex flex-col justify-center sticky top-0 z-50">
+        <div className="bg-white bg-gray-border border-sw-main-darker h-36 border-b flex flex-col justify-center sticky top-0 z-50">
           <div className="flex items-center justify-between mb-4 px-5">
             <h1 className="text-xl text-sw-black font-semibold">Jardínes</h1>
           </div>
@@ -111,7 +111,7 @@ const PageLayout = ({ children }) => {
         </div>
 
         {/* Espacio para contenido (con margen superior para dejar espacio al título) */}
-        <div className="p-4 mt-12 rounded shadow">{children}</div>
+        <div className="p-4 rounded shadow">{children}</div>
       </div>
     </div>
   );
