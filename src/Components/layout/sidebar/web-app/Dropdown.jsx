@@ -1,5 +1,5 @@
 import { useState } from "react";
-import OpenIcon from "../../../assets/chevron_icon.svg";
+import OpenIcon from "../../../../assets/chevron_icon.svg";
 import Card from "./Card";
 
 function Dropdown({ category, attraction }) {

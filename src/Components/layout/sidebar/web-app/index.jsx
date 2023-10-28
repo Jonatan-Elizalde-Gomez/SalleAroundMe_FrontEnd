@@ -1,11 +1,21 @@
+<<<<<<< HEAD:src/Pages/web-app/sidebar/index.jsx
 import SalleLogo from "../../../assets/salle_logo.svg";
 import SearchIcon from "../../../assets/search_icon.svg";
 import RemoveIcon from "../../../assets/remove_icon.svg";
+=======
+import SalleLogo from "../../../../assets/salle_logo.svg";
+import SearchIcon from "../../../../assets/search_icon.svg";
+import RemoveIcon from "../../../../assets/remove_icon.svg";
+>>>>>>> 6481b44506560152b96268dac7dc553da1d78bef:src/Components/layout/sidebar/web-app/index.jsx
 import Dropdown from "./Dropdown";
-import { AllAttractions } from "../../../mocks/AllAttractions";
+import { AllAttractions } from "../../../../mocks/AllAttractions";
 import AttractionDetail from "./AttractionDetail";
+<<<<<<< HEAD:src/Pages/web-app/sidebar/index.jsx
 import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
 import { useState } from "react";
+=======
+import { AttractionDetailMock } from "../../../../mocks/AttractionDetail";
+>>>>>>> 6481b44506560152b96268dac7dc553da1d78bef:src/Components/layout/sidebar/web-app/index.jsx
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,14 +86,23 @@ function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-scroll">
+<<<<<<< HEAD:src/Pages/web-app/sidebar/index.jsx
         {/* {AllAttractions.map((attraction) => (
+=======
+        {AllAttractions.map((attraction) => (
+>>>>>>> 6481b44506560152b96268dac7dc553da1d78bef:src/Components/layout/sidebar/web-app/index.jsx
           <Dropdown
             key={attraction.id}
             category={attraction.category}
             attraction={attraction.attractions}
           />
+<<<<<<< HEAD:src/Pages/web-app/sidebar/index.jsx
         ))} */}
         {
+=======
+        ))}
+        {/* {
+>>>>>>> 6481b44506560152b96268dac7dc553da1d78bef:src/Components/layout/sidebar/web-app/index.jsx
           <AttractionDetail
             id={AttractionDetailMock.id}
             category={AttractionDetailMock.category}
@@ -101,7 +120,7 @@ function Sidebar() {
             similars={AttractionDetailMock.similars}
             coordinates={AttractionDetailMock.coordinates}
           />
-        }
+        } */}
       </div>
     </div>
   );
