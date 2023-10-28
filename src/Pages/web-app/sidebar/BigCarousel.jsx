@@ -17,19 +17,23 @@ function BigCarousel({ images, setBigCarrousel }) {
           slidesToShow={1}
           renderCenterLeftControls={({ previousSlide }) => (
             <button
-              className="bg-sw-white rounded-full p-4 border absolute -left-[8%] top-[40%]"
+              className="rounded-full p-4 absolute -left-[8%] top-[40%]"
               onClick={previousSlide}
             >
-              <img className="rotate-90 w-8" src={SwipIcon} alt="before-icon" />
+              <img
+                className="rotate-90 w-8 filter-white"
+                src={SwipIcon}
+                alt="before-icon"
+              />
             </button>
           )}
           renderCenterRightControls={({ nextSlide }) => (
             <button
-              className="bg-sw-white rounded-full p-4 border absolute -right-[8%] top-[40%]"
+              className="rounded-full p-4 absolute -right-[8%] top-[40%]"
               onClick={nextSlide}
             >
               <img
-                className="-rotate-90 w-8"
+                className="-rotate-90 w-8 filter-white"
                 src={SwipIcon}
                 alt="before-icon"
               />
