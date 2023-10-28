@@ -1,10 +1,10 @@
-import Card from "./Card";
-import ReturnIcon from "../../../assets/return-icon.svg";
-import ShareIcon from "../../../assets/share_icon.svg";
-import CopyIcon from "../../../assets/copy_icon.svg";
+import Card from "../../../Components/basic/cards/CardWeb";
+import ReturnIcon from "../../../Assets/return-icon.svg";
+import ShareIcon from "../../../Assets/share_icon.svg";
+import CopyIcon from "../../../Assets/copy_icon.svg";
 import { useState } from "react";
 import Carousel from "nuka-carousel";
-import SwipIcon from "../../../assets/chevron_icon.svg";
+import SwipIcon from "../../../Assets/chevron_icon.svg";
 import BigCarousel from "./BigCarousel";
 
 function AttractionDetail({

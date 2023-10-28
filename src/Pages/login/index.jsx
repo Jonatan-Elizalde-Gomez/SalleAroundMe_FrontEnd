@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LogoSalle from "../../../src/assets/salle_logo2.png";
+import LogoSalle from "../../../src/Assets/salle_logo2.png";
 
 function Login() {
   const [username, setUsername] = useState("");

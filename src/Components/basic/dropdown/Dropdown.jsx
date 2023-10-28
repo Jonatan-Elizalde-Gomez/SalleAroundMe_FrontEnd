@@ -1,6 +1,6 @@
 import { useState } from "react";
-import OpenIcon from "../../../../assets/chevron_icon.svg";
-import Card from "./Card";
+import OpenIcon from "../../../Assets/chevron_icon.svg";
+import Card from "../cards/CardWeb";
 
 function Dropdown({ category, attraction }) {
   const [openAccordion, setOpenAccordion] = useState(true);

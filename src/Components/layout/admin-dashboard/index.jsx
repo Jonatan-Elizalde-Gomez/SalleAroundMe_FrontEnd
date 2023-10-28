@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import salleLogo from "../../../assets/salle_logo.png";
-import profilePhoto from "../../../assets/profile_photo_test.jpg";
-import personasSVG from "../../../assets/people_icon.svg";
-import plusSVG from "../../../assets/plus_icon.svg";
+import salleLogo from "../../../Assets/salle_logo.png";
+import profilePhoto from "../../../Assets/profile_photo_test.jpg";
+import personasSVG from "../../../Assets/people_icon.svg";
+import plusSVG from "../../../Assets/plus_icon.svg";
 
 const PageLayout = ({ children }) => {
   const [selectedItem, setSelectedItem] = useState(null);
