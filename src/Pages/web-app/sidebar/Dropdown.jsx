@@ -34,7 +34,7 @@ function Dropdown({ category, attraction }) {
               id={attractionItem.id}
               category={category}
               name={attractionItem.name}
-              descrition={attractionItem.description}
+              description={attractionItem.description}
               img={attractionItem.img}
             />
           ))}

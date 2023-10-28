@@ -5,28 +5,28 @@ export const AllAttractions = [
     attractions: [
       {
         id: 1,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Entrada No. 1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 2,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Entrada No. 2",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 3,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Entrada No. 3",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 4,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Entrada No. 4",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
@@ -39,28 +39,28 @@ export const AllAttractions = [
     attractions: [
       {
         id: 1,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Jardin No. 1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 2,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Jardin No. 2",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 3,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Jardin No. 2",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 4,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Jardin No. 3",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
@@ -73,28 +73,28 @@ export const AllAttractions = [
     attractions: [
       {
         id: 1,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Edificio No. 1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 2,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Edificio No. 2",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 3,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Edificio No. 3",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",
       },
       {
         id: 4,
-        name: "Puerta 1. Universidad La Salle Bajío",
+        name: "Edificio No. 4",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         img: "https://www.elsoldeleon.com.mx/local/9xk28k-lasalle/ALTERNATES/LANDSCAPE_1140/LASALLE",

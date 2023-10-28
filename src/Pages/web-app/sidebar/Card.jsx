@@ -1,4 +1,4 @@
-function Card({id, category, name, descrition, img}) {
+function Card({id, category, name, description, img}) {
   return (
     <button className="w-full text-left outline-none flex justify-between items-center px-8 py-4 border-b hover:bg-sw-main-lighter">
       <div className="w-[70%]">
@@ -7,7 +7,7 @@ function Card({id, category, name, descrition, img}) {
           {name}
         </p>
         <p className="text-sw-black text-xs font">
-          {descrition}
+          {description}
         </p>
       </div>
       <img className="w-24 h-24 rounded-xl" src={img} alt="img-card" />
