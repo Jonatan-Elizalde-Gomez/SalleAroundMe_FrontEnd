@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "../Pages/web-app/index";
-import Login from "../Pages/login/index";
-import AdminDashboard from "../Pages/admin-dashboard/index";
+import Home from "../pages/WebApp";
+import Login from "../pages/Login";
+import AdminDashboard from "../pages/AdminDashboard";
 
 const RoutesPath = () => {
   return (
