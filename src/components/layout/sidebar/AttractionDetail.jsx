@@ -1,7 +1,7 @@
+import { useState } from "react";
 import ReturnIcon from "../../../assets/return-icon.svg";
 import ShareIcon from "../../../assets/share_icon.svg";
 import CopyIcon from "../../../assets/copy_icon.svg";
-import { useState } from "react";
 import Carousel from "nuka-carousel";
 import SwipIcon from "../../../assets/chevron_icon.svg";
 import BigCarousel from "./BigCarousel";
@@ -184,12 +184,12 @@ function AttractionDetail({
         </p>
         {similars.map((similar) => (
           <CardWeb
+            key={similar.id}
             id={similar.id}
             category={category}
             description={similar.description}
             name={similar.name}
             img={similar.img}
-            key={similar.id}
           />
         ))}
       </div>

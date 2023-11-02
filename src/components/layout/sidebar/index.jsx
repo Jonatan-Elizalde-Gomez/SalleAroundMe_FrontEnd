@@ -1,9 +1,9 @@
-import SalleLogo from "../../../Assets/salle_logo.svg";
-import RemoveIcon from "../../../Assets/remove_icon.svg";
+import SalleLogo from "../../../assets/salle_logo.svg";
+import RemoveIcon from "../../../assets/remove_icon.svg";
 import Dropdown from "../../basic/dropdown/Dropdown";
-import { AllAttractions } from "../../../Mocks/AllAttractions";
+import { AllAttractions } from "../../../mocks/AllAttractions";
 import AttractionDetail from "./AttractionDetail";
-import { AttractionDetailMock } from "../../../Mocks/AttractionDetail";
+import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
 import { useState } from "react";
 
 function Sidebar() {
@@ -55,7 +55,7 @@ function Sidebar() {
           >
             <img className="w-6" src={RemoveIcon} alt="remove-icon" />
           </button>
-          <div className="bg-sw-white flex flex-col w-full absolute max-h-[250px] z-[6] left-0 top-14 border rounded-xl shadow-md overflow-y-auto">
+          <div className="bg-sw-white flex flex-col w-full absolute max-h-[250px] z-[6] left-0 top-14 rounded-xl shadow-md overflow-y-auto">
             {openSearchItems &&
               searchResults &&
               searchResults.length > 0 &&
