@@ -18,7 +18,7 @@ export const AttractionDetailMock = {
     "https://www.lasallebajio.edu.mx/somos/images/campus.jpg",
     "https://pr0.nicelocal.com.mx/tJMcSrW6ZmfcP1jd2FxX9Q/1120x700,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2SK3JyH7_c3JQEfrkW7KtJToiXIejvkfZWjlj6wzKbnx0c9aUhqHxP8i51rXwCIDMw",
   ],
-  similar: [
+  similars: [
     {
       id: 1,
       name: "Puerta 1. Universidad La Salle Bajío",

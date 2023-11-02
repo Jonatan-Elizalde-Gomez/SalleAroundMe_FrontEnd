@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import logoSalleIcon from "../assets/salle_marker.png";
-import Sidebar from "../components/layout/sidebar/web-app/index";
+import Sidebar from "../components/layout/sidebar/index";
 import CategoryBtn from "../components/basic/buttons/ButtonCategory";
 import { AllCategories } from "../mocks/AllCategories";
 
