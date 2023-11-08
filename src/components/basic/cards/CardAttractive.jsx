@@ -3,7 +3,7 @@ import CardButtons from "../buttons/ButtonCard";
 
 export default function CardAttractive({ data }) {
   return (
-    <div className="flex rounded-xl border border-sw-main-darker bg-white px-7 py-5 mb-5">
+    <div className="flex rounded-xl border border-sw-main-darker bg-white px-7 py-5 lg:mb-5">
       <div className="grow">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-zinc-800">
@@ -17,7 +17,7 @@ export default function CardAttractive({ data }) {
           </p>
         </div>
         <div className="flex justify-between">
-          <div className="flex gap-24">
+          <div className="hidden lg:flex gap-24">
             <div>
               <p className="text-slate-400 text-sm">Autor</p>
               <p className="text-neutral-500">Julio Hernández Figueroa</p>
