@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import LogoSalle from "../../src/assets/salle_logo2.png";
+import { useNavigate } from "react-router-dom"; 
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Obtiene la función de navegación
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -16,10 +18,10 @@ function Login() {
   const handleLogin = () => {
     if (username === "admin" && password === "admin") {
       // Las credenciales son válidas, puedes redirigir al usuario o realizar otras acciones
-      console.log("Inicio de sesión exitoso");
+      navigate("/admin");
     } else {
-      // Las credenciales son incorrectas, puedes mostrar un mensaje de error
       console.log("Credenciales incorrectas");
+
     }
   };
 
