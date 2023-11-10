@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import logoSalleIcon from "../assets/salle_marker.png";
-import Sidebar from "../components/layout/sidebar/web-app/index";
+import Sidebar from "../components/layout/sidebar/index";
 import CategoryBtn from "../components/basic/buttons/ButtonCategory";
 import { AllCategories } from "../mocks/AllCategories";
 
@@ -32,7 +32,7 @@ function WebApp() {
     <div className="overflow-hidden w-full h-screen flex">
       <Sidebar />
       <div className="relative flex-1 flex-wrap w-full">
-        <div className="absolute flex gap-x-8 left-11 top-5 z-10">
+        <div className="absolute flex flex-wrap gap-y-2 gap-x-8 left-11 top-5 z-[5]">
           {AllCategories.map((category) => (
             <CategoryBtn
               key={category.id}
@@ -42,7 +42,7 @@ function WebApp() {
           ))}
         </div>
         <MapContainer
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", zIndex: "4" }}
           center={[21.152073200803656, -101.71124458732997]}
           zoom={18}
           scrollWheelZoom={true}

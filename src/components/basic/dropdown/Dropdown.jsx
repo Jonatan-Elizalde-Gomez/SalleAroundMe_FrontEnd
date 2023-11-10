@@ -1,6 +1,7 @@
 import { useState } from "react";
-import OpenIcon from "../../../../assets/chevron_icon.svg";
-import Card from "./Card";
+import OpenIcon from "../../../assets/chevron_icon.svg";
+import CardWeb from "../cards/CardWeb";
+
 
 function Dropdown({ category, attraction }) {
   const [openAccordion, setOpenAccordion] = useState(true);
@@ -29,12 +30,12 @@ function Dropdown({ category, attraction }) {
       {openAccordion && (
         <div className="transition-opacity duration-1000 ease-in-out transform">
           {attraction.map((attractionItem) => (
-            <Card
+            <CardWeb
               key={attractionItem.id}
               id={attractionItem.id}
               category={category}
               name={attractionItem.name}
-              descrition={attractionItem.description}
+              description={attractionItem.description}
               img={attractionItem.img}
             />
           ))}
