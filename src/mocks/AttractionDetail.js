@@ -2,9 +2,10 @@ export const AttractionDetailMock = {
   id: 1,
   category: "Entrada",
   name: "Entrada Principal",
+  coordinates: "1.253, 23.45897",
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  autor: "Lorem Ipsum",
+  author: "Lorem Ipsum",
   tecnique: "Lorem Ipsum",
   material: "Lorem Ipsum",
   size: 250,

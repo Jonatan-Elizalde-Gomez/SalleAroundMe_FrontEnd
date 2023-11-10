@@ -1,15 +1,20 @@
 import SalleLogo from "../../../assets/salle_logo.svg";
 import RemoveIcon from "../../../assets/remove_icon.svg";
 import Dropdown from "../../basic/dropdown/Dropdown";
+import ArrowIcon from "../../../assets/return-icon.svg";
 import { AllAttractions } from "../../../mocks/AllAttractions";
 import AttractionDetail from "./AttractionDetail";
 import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [openSearchItems, setOpenSearchItems] = useState(false);
+  const [positionPanel, setPositionPanel] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSearchChange = (event) => {
     const query = event.target.value;
@@ -34,7 +39,11 @@ function Sidebar() {
     setOpenSearchItems(false);
   };
   return (
-    <div className="w-[30vw] h-screen bg-white shadow-md flex flex-col z-10">
+    <div
+      className={`w-full absolute transition-all duration-300  ${
+        positionPanel ? "bottom-0" : "bottom-[-80%]"
+      }  rounded-t-xl lg:bottom-0 lg:rounded-none lg:relative lg:w-[35vw] h-screen bg-white shadow-md flex flex-col z-10`}
+    >
       <div className="p-6 flex items-center gap-x-4 bg-white border-b">
         <div className="flex relative w-full">
           <img
@@ -71,6 +80,18 @@ function Sidebar() {
               )}
           </div>
         </div>
+        <button
+          onClick={() => setPositionPanel(!positionPanel)}
+          className="lg:hidden"
+        >
+          <img
+            className={`transition-all duration-300 ${
+              positionPanel ? "-rotate-90" : "rotate-90"
+            }`}
+            src={ArrowIcon}
+            alt="toggle-panel"
+          />
+        </button>
       </div>
 
       <div className="flex-1 overflow-y-scroll">
@@ -87,7 +108,7 @@ function Sidebar() {
             category={AttractionDetailMock.category}
             name={AttractionDetailMock.name}
             description={AttractionDetailMock.description}
-            autor={AttractionDetailMock.autor}
+            author={AttractionDetailMock.author}
             tecnique={AttractionDetailMock.tecnique}
             material={AttractionDetailMock.material}
             size={AttractionDetailMock.size}
@@ -100,6 +121,21 @@ function Sidebar() {
             coordinates={AttractionDetailMock.coordinates}
           />
         }
+        <button
+          onClick={() => navigate("/collaborators")}
+          className="text-left flex items-center px-8 gap-x-2 py-5 hover:bg-sw-main-lighter"
+        >
+          <img className="w-10" src={SalleLogo} alt="logo-salle" />
+          <div>
+            <h3 className="font-medium text-sw-black">
+              Colaboradores del proyecto
+            </h3>
+            <p className="text-sw-gray text-xs">
+              Ingeniería en Desarrollo de Software y Sistemas Computacionales
+              2020 - 2024
+            </p>
+          </div>
+        </button>
       </div>
     </div>
   );

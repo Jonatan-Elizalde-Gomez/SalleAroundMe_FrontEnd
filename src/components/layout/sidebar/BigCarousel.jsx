@@ -6,7 +6,7 @@ function BigCarousel({ images, setBigCarrousel }) {
   return (
     <div className="absolute flex items-center justify-center z-50 top-0 right-0 w-full h-screen bg-[rgba(0,0,0,0.7)]">
       <button
-        className="absolute top-16 right-32"
+        className="absolute top-8 right-12 lg:top-16 lg:right-32"
         onClick={() => setBigCarrousel(false)}
       >
         <img src={CloseIcon} alt="close-icon" />
@@ -40,9 +40,9 @@ function BigCarousel({ images, setBigCarrousel }) {
             </button>
           )}
         >
-          {images.map((image) => (
+          {images.map((image, index) => (
             <img
-              key={image.image}
+              key={index}
               className="rounded-xl w-full h-[70vh] object-cover"
               src={image}
               alt="all-images"
