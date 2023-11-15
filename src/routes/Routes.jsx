@@ -4,6 +4,7 @@ import Home from "../pages/WebApp";
 import Login from "../pages/Login";
 import AdminDashboard from "../pages/AdminDashboard";
 import Modals from "../pages/Modals";
+import ModalsAdd from "../pages/ModalsAdd";
 
 const RoutesPath = () => {
   return (
@@ -13,6 +14,7 @@ const RoutesPath = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/modals" element={<Modals />}/>
+        <Route path="/modalsAdd" element={<ModalsAdd />}/>
       </Routes>
     </Router>
   );
