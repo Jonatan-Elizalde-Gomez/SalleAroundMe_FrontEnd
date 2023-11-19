@@ -3,12 +3,12 @@ import {
   getCategoriesError,
   getCategoriesStart,
   getCategoriesSuccess,
-} from "../slices/categorySlice";
+} from "../slices/categoriesMapSlice";
 
 export const getCategories = () => async (dispatch) => {
   dispatch(getCategoriesStart());
   await privateApi
-    .get("posts/")
+    .get("attraction/GetAllCategories")
     .then((response) => {
       if (response.data.length < 0) {
         console.log("Error fetching data from API");

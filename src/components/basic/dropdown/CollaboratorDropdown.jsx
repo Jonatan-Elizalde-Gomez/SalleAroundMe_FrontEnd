@@ -35,7 +35,7 @@ function CollaboratorDropdown({ title, collaborators }) {
             image={collaborator.image}
             linkedinLink={collaborator.linkedin}
             emailLink={collaborator.email}
-            githubLink={collaborator.githubLink}
+            githubLink={collaborator.github}
           />
         ))}
       </div>

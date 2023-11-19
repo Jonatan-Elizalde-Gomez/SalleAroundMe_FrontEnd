@@ -44,8 +44,8 @@ function BigCarousel({ images, setBigCarrousel }) {
             <img
               key={index}
               className="rounded-xl w-full h-[70vh] object-cover"
-              src={image}
-              alt="all-images"
+              src={image.url}
+              alt={image.description}
             />
           ))}
         </Carousel>
