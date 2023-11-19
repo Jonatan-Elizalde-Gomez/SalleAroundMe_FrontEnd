@@ -1,27 +1,44 @@
 import React, { useState } from "react";
 import LogoSalle from "../../src/assets/salle_logo2.png";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { loginService } from "../components/utils/Services";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Obtiene la función de navegación
 
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    if (username === "admin" && password === "admin") {
-      // Las credenciales son válidas, puedes redirigir al usuario o realizar otras acciones
-      navigate("/admin");
-    } else {
-      console.log("Credenciales incorrectas");
-
+  const handleLogin = async () => {
+    try {
+      if (email === "" || password === "") {
+        console.log("No se puede iniciar sesión con campos vacíos");
+        return;
+      }
+      await loginService({
+        email: email,
+        password: password,
+      });
+      // Verificar si hay un token en el localStorage
+      const existingToken = localStorage.getItem("token");
+      if (!existingToken) {
+        console.log("No hay un token en el localStorage. No se puede iniciar sesión.");
+      } else {
+        // La solicitud de inicio de sesión fue exitosa, ahora puedes navegar a la nueva ruta
+        await navigate("/admin");
+        //setEmail("");
+        //setPassword("");
+      }
+    } catch (error) {
+      // Manejar errores de inicio de sesión aquí
+      console.error("Error al iniciar sesión:", error.message);
     }
   };
 
@@ -37,16 +54,16 @@ function Login() {
           <div className="mb-4">
             <label
               className="text-xs block text-gray-700 font-bold mb-2"
-              htmlFor="username"
+              htmlFor="email"
             >
               Correo electrónico
             </label>
             <input
               className="text-stone-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
+              id="email"
               type="text"
               placeholder="Escribe tu correo electrónico aquí..."
-              value={username}
+              value={email}
               onChange={handleUsernameChange}
             />
           </div>

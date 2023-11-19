@@ -4,10 +4,12 @@ import profilePhoto from "../../../assets/profile_photo_test.jpg";
 import personasSVG from "../../../assets/people_icon.svg";
 import plusSVG from "../../../assets/plus_icon.svg";
 import menuButton from "../../../assets/menu_button.svg";
+import { useNavigate } from "react-router-dom";
 
 const PageLayout = ({ children }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const navigate = useNavigate(); // Obtiene la función de navegación
 
   const options = [
     "Usuarios",
@@ -28,6 +30,13 @@ const PageLayout = ({ children }) => {
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    navigate("/login")
+  }
 
   return (
     <>
@@ -110,7 +119,7 @@ const PageLayout = ({ children }) => {
               <p className="text-[10px] text-sw-gray">alfonso@example.com</p>
 
               {/* Botón de Cerrar Sesión */}
-              <button className="mt-2 text-[10px]">Cerrar Sesión</button>
+              <button className="mt-2 text-[10px]" onClick={handleLogout}>Cerrar Sesión</button>
             </div>
           </div>
         </div>

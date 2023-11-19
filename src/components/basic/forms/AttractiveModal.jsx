@@ -1,80 +1,133 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import iconX from "../../../assets/times2.png";
 import upload from "../../../assets/upload.png";
 import { useNavigate } from "react-router-dom";
+import { createAttractionService } from "../../utils/Services";
 
 function AttractiveModal({ onClose }) {
-  const [name, setName] = useState('');
-  const [author, setAuthor] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [description, setDescription] = useState('');
-  const [technique, setTechnique] = useState('');
-  const [materials, setMaterials] = useState('');
-  const [size, setSize] = useState('');
-  const [style, setStyle] = useState('');
+  const [name, setName] = useState("");
+  const [author, setAuthor] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [description, setDescription] = useState("");
+  const [technique, setTechnique] = useState("");
+  const [materials, setMaterials] = useState("");
+  const [category, setCategory] = useState("");
+  const [size, setSize] = useState("");
+  const [style, setStyle] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [selectedTechniques, setSelectedTechniques] = useState([]);
 
   const [archivo, setArchivo] = useState(null);
   const [archivoValid, setArchivoValid] = useState(true);
 
-  const handleCreateRecord = () => {
+  const handleCreateRecord = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
-    const dataJson = {	
-      "name": name,
-      "author": author,
-      "latitude": latitude,
-      "longitude": longitude,
-      "description": description,
-      "technique": technique,
-      "materials": materials,
-      "size": size,
-      "style": style,
-      "file": archivo,
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    const dataJson = {
+      name: name,
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
+      description: description,
+      img: [
+        {
+          url: imageURL,
+        },
+      ],
+      size: Number(size),
+      id_author: Number(author),
+      id_style: Number(style),
+      id_user: Number(userId),
+      id_mac_address: 1,
+      id_category: Number(category),
+      material: selectedMaterials.map((materialId) => ({ id: materialId })),
+      tecnica: selectedTechniques.map((techniqueId) => ({ id: techniqueId })),
+    };
+    if (description === "" || name === "" || latitude === "" || longitude === "" || size === "" || style === "" || author === "" ||
+      imageURL === "" || selectedMaterials.length === 0 || category === "" ||selectedTechniques.length === 0) {
+      console.log("No se puede crear un registro con campos vacíos");
+    } else {
+      try {
+        await createAttractionService(token, dataJson);
+      } catch (error) {
+        console.error("Error creating attraction:", error);
+      }
     }
-    console.log(dataJson);
   };
 
-   // Función para manejar la carga de un archivo
-   const handleFileUpload = (file) => {
-    setArchivo(file);
-    setArchivoValid(true);
-    console.log(file)
+  // Función para manejar la carga de un archivo
+  const handleFileUpload = (file) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const url = reader.result;
+      setArchivo(file);
+      setArchivoValid(true);
+      setImageURL(url);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleLatitudeChange = (e) => {
     const { value } = e.target;
     const regex = /^[0-9.-]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setLatitude(value);
     }
   };
-  
+
   const handleLongitudeChange = (e) => {
     const { value } = e.target;
     const regex = /^[0-9.-]*$/;
-    if (regex.test(value) || value === '') {
+    if (regex.test(value) || value === "") {
       setLongitude(value);
     }
   };
 
-  return (
+  const handleMaterialsChange = (e) => {
+    const { value } = e.target;
+    console.log(value);
+    setSelectedMaterials((prevMaterials) => [...prevMaterials, Number(value)]);
+  };
 
+  const handleTechniqueChange = (e) => {
+    const { value } = e.target;
+    console.log(value);
+    setSelectedTechniques((prevTechniques) => [
+      ...prevTechniques,
+      Number(value),
+    ]);
+  };
+
+  return (
     <div>
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
+      <div
+        className="fixed inset-0 bg-black opacity-50"
+        onClick={onClose}
+      ></div>
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="bg-white p-8 rounded shadow-md w-[575px] max-h-[600px] overflow-y-auto">
-          <div className='flex justify-between'>
+          <div className="flex justify-between">
             <h2 className="text-xl font-semibold">Crear Registro</h2>
-            <img src={iconX} className="w-6 h-6 cursor-pointer" alt="x" onClick={onClose}/>
+            <img
+              src={iconX}
+              className="w-6 h-6 cursor-pointer"
+              alt="x"
+              onClick={onClose}
+            />
           </div>
-          <p className="text-base text-gray-500 mb-6">Completa el siguiente formulario para añadir un nuevo registro</p>
+          <p className="text-base text-gray-500 mb-6">
+            Completa el siguiente formulario para añadir un nuevo registro
+          </p>
           {/* Content */}
 
           {/* Nombre */}
-          <label className="block text-zinc-800 text-xs mb-1">
-            Nombre
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Nombre</label>
           <input
             type="text"
             placeholder="Nombre"
@@ -84,9 +137,7 @@ function AttractiveModal({ onClose }) {
           />
 
           {/* Autor */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Autor
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Autor</label>
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={author}
@@ -94,15 +145,15 @@ function AttractiveModal({ onClose }) {
           >
             {/* Opciones del ComboBox */}
             <option value="">Selecciona un autor</option>
-            <option value="autor1">Autor 1</option>
-            <option value="autor2">Autor 2</option>
+            <option value="1">Autor 1</option>
+            <option value="2">Autor 2</option>
           </select>
 
-          <div className='flex justify-between'>
+          <div className="flex justify-between">
             <div>
               {/* Latitud */}
               <label className="block text-zinc-800 text-xs mb-1">
-              Latitud
+                Latitud
               </label>
               <input
                 type="text"
@@ -116,7 +167,7 @@ function AttractiveModal({ onClose }) {
             <div>
               {/* Longitud */}
               <label className="block text-zinc-800 text-xs mb-1">
-              Longitud
+                Longitud
               </label>
               <input
                 type="text"
@@ -130,7 +181,7 @@ function AttractiveModal({ onClose }) {
 
           {/* Descripcion */}
           <label className="block text-zinc-800 text-xs mb-1">
-          Descripcion
+            Descripcion
           </label>
           <textarea
             placeholder="Descripcion"
@@ -141,39 +192,53 @@ function AttractiveModal({ onClose }) {
           ></textarea>
 
           {/* Tecnica */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Tecnica
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Tecnica</label>
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={technique}
-            onChange={(e) => setTechnique(e.target.value)}
+            onChange={(e) => {
+              setTechnique(e.target.value.toString());
+              handleTechniqueChange(e);
+            }}
           >
             {/* Opciones del ComboBox */}
             <option value="">Selecciona una técnica</option>
-            <option value="tecnica1">Técnica 1</option>
-            <option value="tecnica2">Técnica 2</option>
+            <option value="1">Técnica 1</option>
+            <option value="2">Técnica 2</option>
+          </select>
+
+          {/* Categoria */}
+          <label className="block text-zinc-800 text-xs mb-1">Categoría</label>
+          <select
+            className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {/* Opciones del ComboBox */}
+            <option value="">Selecciona una categoría</option>
+            <option value="1">Categoría 1</option>
+            <option value="2">Categoría 2</option>
+            {/* Agrega más opciones según tus necesidades */}
           </select>
 
           {/* Materiales */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Materiales
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Materiales</label>
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={materials}
-            onChange={(e) => setMaterials(e.target.value)}
+            onChange={(e) => {
+              setMaterials(e.target.value.toString());
+              handleMaterialsChange(e);
+            }}
           >
             {/* Opciones del ComboBox */}
             <option value="">Selecciona materiales</option>
-            <option value="material1">Material 1</option>
-            <option value="material2">Material 2</option>
+            <option value="1">Material 1</option>
+            <option value="2">Material 2</option>
           </select>
 
           {/* Tamaño */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Tamaño
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Tamaño</label>
           <input
             type="text"
             placeholder="Tamaño"
@@ -183,9 +248,7 @@ function AttractiveModal({ onClose }) {
           />
 
           {/* Estilo */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Estilo
-          </label>
+          <label className="block text-zinc-800 text-xs mb-1">Estilo</label>
           <select
             className="w-full mb-4 p-2 border border-gray-300 rounded"
             value={style}
@@ -193,16 +256,17 @@ function AttractiveModal({ onClose }) {
           >
             {/* Opciones del ComboBox */}
             <option value="">Selecciona un estilo</option>
-            <option value="estilo1">Estilo 1</option>
-            <option value="estilo2">Estilo 2</option>
+            <option value="1">Estilo 1</option>
+            <option value="2">Estilo 2</option>
           </select>
 
           {/* Dropzone */}
           <div>
             <div
-              className={`bg-white border-dashed border-2 rounded-md p-4 mt-2 h-[150px] lg:h-[270px] text-center flex flex-col justify-center items-center cursor-pointer ${
-                archivoValid ? "border-gray-300" : "border-red-500"  
+              className={`bg-white border-dashed border-2 rounded-md p-4 mt-2 h-[150px] lg:h-[270px] bg-cover text-center flex flex-col justify-center items-center cursor-pointer ${
+                archivoValid ? "border-gray-300" : "border-red-500"
               }`}
+              style={{ backgroundImage: `url(${imageURL})` }}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
@@ -228,11 +292,18 @@ function AttractiveModal({ onClose }) {
                 fileInput.click();
               }}
             >
-              <img src={upload} alt="Cargando..." className="mx-auto mb-4 w-6 h-6" />
-              <p className="text-neutral-500 text-xs">Arrastra y suelta aquí las imágenes, o haz clic para seleccionarlas</p>
+              <img
+                src={upload}
+                alt="Cargando..."
+                className="mx-auto mb-4 w-6 h-6"
+              />
+              <p className="text-neutral-500 text-xs">
+                Arrastra y suelta aquí las imágenes, o haz clic para
+                seleccionarlas
+              </p>
             </div>
           </div>
-  
+
           {/* Botones */}
           <div className="flex justify-end mt-5">
             <button

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import iconX from "../../../assets/times2.png";
 import eyeOff from "../../../assets/eye-off.png";
 import { useNavigate } from "react-router-dom"; 
+import { registerUserService } from "../../utils/Services";
 
 function UserModal({ onClose }) {
   const [name, setName] = useState('');
@@ -12,6 +13,7 @@ function UserModal({ onClose }) {
   const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
@@ -24,6 +26,10 @@ function UserModal({ onClose }) {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prevShowConfirmPassword) => !prevShowConfirmPassword);
   };
 
   const handlePasswordChange = (e) => {
@@ -42,12 +48,23 @@ function UserModal({ onClose }) {
     setIsValidConfirmPassword(inputConfirmPassword === password);
   };
 
-  const handleCreateRecord = () => {
+  const handleCreateRecord = async () => {
+    const token = localStorage.getItem("token");
     // Aquí puedes hacer lo que necesites con la información del formulario
     const dataJson = {	
       "name": name,
       "email": email,
       "password": password,
+    }
+    try {
+      if(isValidPassword === false || isValidConfirmPassword === false || isValid === false){
+        console.log("Favor de llenar los campos correctamente");
+      }
+      else{
+        await registerUserService(token, dataJson);
+      }
+    } catch (error) {
+      console.error("Error creating attraction:", error);
     }
     console.log(dataJson);
   };
@@ -129,7 +146,7 @@ function UserModal({ onClose }) {
           </label>
           <div className="relative">
             <input
-                type={showPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
               placeholder="Confirme su contraseña"
               className={`w-full mb-4 p-2 border ${isValidConfirmPassword ? 'border-gray-300' : 'border-red-500'} rounded focus:outline-none focus:ring ${isValidConfirmPassword ? 'focus:border-blue-500' : 'focus:border-red-500'}`}
@@ -139,11 +156,11 @@ function UserModal({ onClose }) {
             {/* Botón de Ojo */}
             <button
               className="absolute top-0 right-0 mr-2 p-2"
-              onClick={handleTogglePasswordVisibility}
+              onClick={handleToggleConfirmPasswordVisibility}
             >
               <img
                 src={eyeOff}
-                alt={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                alt={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 className="w-6 h-6"
               />
             </button>
