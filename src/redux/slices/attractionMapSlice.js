@@ -6,30 +6,34 @@ const initialState = {
   error: null,
 };
 
-const nearAttractionSlice = createSlice({
-  name: "nearAttraction",
+const attractionMapSlice = createSlice({
+  name: "attractionsMap",
   initialState,
   reducers: {
-    getNearAttractionStart(state) {
+    getAttractionStart(state) {
       state.loading = true;
     },
-    getNearAttractionSuccess(state, action) {
+    getAttractionSuccess(state, action) {
       state.loading = false;
       state.error = false;
       state.data = action.payload;
     },
-    getNearAttractionError(state, action) {
+    getAttractionError(state) {
       state.loading = false;
       state.error = true;
       state.data = [];
+    },
+    resetState(state) {
+      state.data = null;
     },
   },
 });
 
 export const {
-  getNearAttractionStart,
-  getNearAttractionSuccess,
-  getNearAttractionError,
-} = nearAttractionSlice.actions;
+  getAttractionStart,
+  getAttractionSuccess,
+  getAttractionError,
+  resetState,
+} = attractionMapSlice.actions;
 
-export default nearAttractionSlice.reducer;
+export default attractionMapSlice.reducer;

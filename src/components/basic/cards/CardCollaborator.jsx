@@ -2,13 +2,14 @@ import React from "react";
 import LinkedinIcon from "../../../assets/linkedinIcon.svg";
 import EmailIcon from "../../../assets/emailIcon.svg";
 import GithubIcon from "../../../assets/githubIcon.svg";
+import DefaultUser from "../../../assets/defaultUser.png";
 
 function CardCollaborator({fullname, image, description, linkedinLink, emailLink, githubLink}) {
   return (
     <div className="p-6 border rounded-xl bg-white">
       <div className="flex gap-x-2 items-center">
         <img
-          src={image}
+          src={image === "" ? DefaultUser : image }
           className="w-10 h-10 rounded-full object-cover"
           alt="img-profile"
         />
