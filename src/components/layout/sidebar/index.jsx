@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../app/store";
 import LoadingGif from "../../../assets/loading.gif";
 import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
 import { handleSearchChange } from "../../../utils/search";
-import AttractionDetail from '../sidebar/AttractionDetail'
+import AttractionDetail from "../sidebar/AttractionDetail";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,7 +56,7 @@ function Sidebar() {
       !attractionsByCategoryData
     ) {
       setAttractions(attractionMapData);
-    }else if (
+    } else if (
       attractionsByCategoryData &&
       !attractionMapData &&
       !attractionsMapData
