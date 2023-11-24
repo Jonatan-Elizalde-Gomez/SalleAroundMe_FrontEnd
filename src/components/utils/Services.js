@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import React from "react";
 const baseUrl = "https://salle-around-me.onrender.com/";
 
 export const loginService = async credentials => {
@@ -66,20 +66,77 @@ export const registerUserService = async (token, dataJson) => {
 
 
 
-export function getAllAtractions({
-  setConsumoDeAguaTrimestral
-}) {
-  axios
-    .get(
-        
-        `${baseUrl}user/attraction/GetAllAttractions`,
-      {
-        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
-      }
-    )
+export function getAllAtractions( setAtraction, id ) {
+  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}attraction/GetAttractionsByCategory/${id}`, { headers: headers })
     .then((response) => {
-      if (response.status == 200) {
-        setConsumoDeAguaTrimestral(response.data);
+      console.log(response);
+      if (response.status === 200) {
+        setAtraction(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+
+export function getAllUsers( setUsers ) {
+  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}user/`, { headers: headers })
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        setUsers(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getAllCategories( setUsers ) {
+  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}attraction/GetAllCategories`, { headers: headers })
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        setUsers(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+
+export function getAllAuthors( setAuthors ) {
+  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}author/`, { headers: headers })
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        setAuthors(response.data);
       }
     })
     .catch((error) => {

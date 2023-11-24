@@ -19,11 +19,11 @@ function CategoryModal({ onClose }) {
 
     <div>
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
-      <div className="fixed inset-0 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black opacity-50 z-[60]" onClick={onClose}></div>
+      <div className="fixed inset-0 flex items-center justify-center z-[70]">
         <div className="bg-white p-8 rounded shadow-md w-[575px] max-h-[600px] overflow-y-auto">
           <div className='flex justify-between'>
-            <h2 className="text-xl font-semibold">Crear Registro</h2>
+            <h2 className="text-xl font-semibold">Crear categoría</h2>
             <img src={iconX} className="w-6 h-6 cursor-pointer" alt="x" onClick={onClose}/>
           </div>
           <p className="text-base text-gray-500 mb-6">Completa el siguiente formulario para añadir un nuevo registro</p>

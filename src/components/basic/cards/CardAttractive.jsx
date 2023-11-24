@@ -7,13 +7,10 @@ export default function CardAttractive({ data }) {
       <div className="grow">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-zinc-800">
-            Jardín de la inclusión
+            {data.name}
           </h3>
           <p className="text-neutral-500">
-            Este jardín está inspirado en un valor importante para la comunidad
-            lasallista, la Inclusión. Desde su diseño muestra como todos son
-            parte de la comunidad, todos ocupan un lugar especial y cada uno
-            tiene la oportunidad...
+          {data.description}
           </p>
         </div>
         <div className="flex justify-between">
