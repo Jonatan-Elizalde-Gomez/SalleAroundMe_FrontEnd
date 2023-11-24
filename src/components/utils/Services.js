@@ -62,3 +62,27 @@ export const registerUserService = async (token, dataJson) => {
     }
   }
 };
+
+
+
+
+export function getAllAtractions({
+  setConsumoDeAguaTrimestral
+}) {
+  axios
+    .get(
+        
+        `${baseUrl}user/attraction/GetAllAttractions`,
+      {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      }
+    )
+    .then((response) => {
+      if (response.status == 200) {
+        setConsumoDeAguaTrimestral(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
