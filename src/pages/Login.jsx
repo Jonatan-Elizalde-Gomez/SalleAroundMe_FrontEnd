@@ -22,25 +22,29 @@ function Login() {
         console.log("No se puede iniciar sesión con campos vacíos");
         return;
       }
-      await loginService({
+      const loginData = await loginService({
         email: email,
         password: password,
       });
-      // Verificar si hay un token en el localStorage
-      const existingToken = localStorage.getItem("token");
-      if (!existingToken) {
-        console.log("No hay un token en el localStorage. No se puede iniciar sesión.");
-      } else {
+      
+      // Verificar si loginData no es null
+      if (loginData) {
+        // Establecer los elementos en localStorage
+        localStorage.setItem('token', JSON.stringify(loginData.token));
+        localStorage.setItem('userId', JSON.stringify(loginData.user_id));
+        localStorage.setItem('name', JSON.stringify(loginData.name));
+        localStorage.setItem('email', JSON.stringify(loginData.email));
+        
         // La solicitud de inicio de sesión fue exitosa, ahora puedes navegar a la nueva ruta
         await navigate("/admin");
-        //setEmail("");
-        //setPassword("");
+      } else {
+        console.log("No se pudo iniciar sesión con los datos proporcionados.");
       }
     } catch (error) {
-      // Manejar errores de inicio de sesión aquí
       console.error("Error al iniciar sesión:", error.message);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center h-screen">

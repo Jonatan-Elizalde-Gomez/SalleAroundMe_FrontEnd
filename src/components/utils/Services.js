@@ -1,39 +1,35 @@
 import axios from 'axios';
 import React from "react";
 const baseUrl = "https://salle-around-me.onrender.com/";
+const token = localStorage.getItem("token").replace(/['"]+/g, ''); 
 
 export const loginService = async credentials => {
   try {
     const response = await axios.post(`${baseUrl}user/login`, credentials);
-    // La solicitud fue realizada y el servidor respondió con un estado de error
     if (response.data.message === "Credenciales inválidas") {
       console.error("Error de respuesta:", response.data.message);
-      return;
+      return null;
     }
-    else {
-      localStorage.setItem('token', JSON.stringify(response.data.token));
-      localStorage.setItem('userId', JSON.stringify(response.data.user_id));
-      localStorage.setItem('name', JSON.stringify(response.data.name));
-      return response.data;
-    }
+    // Devuelve los datos directamente
+    return response.data;
   } catch (error) {
+    // Maneja los errores como antes
     if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
       console.error("No se recibió respuesta del servidor");
     } else {
-      // Ocurrió un error al configurar la solicitud
       console.error("Error al configurar la solicitud:", error.message);
     }
+    return null;
   }
 };
+
 
 export const createAttractionService = async (token, dataJson) => {
   const headers = {
-    "Authorization": `Bearer ${token.replace(/['"]+/g, '')}`,
+    "Authorization": `Bearer ${token}`,
   };
   try {
     const response = await axios.post(`${baseUrl}attraction/`, dataJson, {headers: headers});
-    console.log(response.data);
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -44,14 +40,15 @@ export const createAttractionService = async (token, dataJson) => {
     }
   }
 };
+
+
 
 export const registerUserService = async (token, dataJson) => {
   const headers = {
-    "Authorization": `Bearer ${token.replace(/['"]+/g, '')}`,
+    "Authorization": `Bearer ${token}`,
   };
   try {
     const response = await axios.post(`${baseUrl}user/`, dataJson, {headers: headers});
-    console.log(response.data);
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -64,10 +61,94 @@ export const registerUserService = async (token, dataJson) => {
 };
 
 
+export const registerAuthorService = async (dataJson) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.post(`${baseUrl}author/`, dataJson, {headers: headers});
+  } catch (error) {
+    if (error.request) {
+      // La solicitud fue realizada pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+    } else {
+      // Ocurrió un error al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+    }
+  }
+};
 
+
+export const registerCategoryService = async (dataJson) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.post(`${baseUrl}category/`, dataJson, {headers: headers});
+  } catch (error) {
+    if (error.request) {
+      // La solicitud fue realizada pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+    } else {
+      // Ocurrió un error al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+    }
+  }
+};
+
+export const registerMaterialService = async (dataJson) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.post(`${baseUrl}material/`, dataJson, {headers: headers});
+  } catch (error) {
+    if (error.request) {
+      // La solicitud fue realizada pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+    } else {
+      // Ocurrió un error al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+    }
+  }
+};
+
+export const registerTecniqueService = async (dataJson) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.post(`${baseUrl}tecnique/`, dataJson, {headers: headers});
+  } catch (error) {
+    if (error.request) {
+      // La solicitud fue realizada pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+    } else {
+      // Ocurrió un error al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+    }
+  }
+};
+
+export const registerStyleService = async (dataJson) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.post(`${baseUrl}style/`, dataJson, {headers: headers});
+  } catch (error) {
+    if (error.request) {
+      // La solicitud fue realizada pero no se recibió respuesta
+      console.error("No se recibió respuesta del servidor");
+    } else {
+      // Ocurrió un error al configurar la solicitud
+      console.error("Error al configurar la solicitud:", error.message);
+    }
+  }
+};
 
 export function getAllAtractions( setAtraction, id ) {
-  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+   // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -75,7 +156,6 @@ export function getAllAtractions( setAtraction, id ) {
   return axios
     .get(`${baseUrl}attraction/GetAttractionsByCategory/${id}`, { headers: headers })
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         setAtraction(response.data);
       }
@@ -87,7 +167,7 @@ export function getAllAtractions( setAtraction, id ) {
 
 
 export function getAllUsers( setUsers ) {
-  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+   // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -95,7 +175,6 @@ export function getAllUsers( setUsers ) {
   return axios
     .get(`${baseUrl}user/`, { headers: headers })
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         setUsers(response.data);
       }
@@ -105,8 +184,8 @@ export function getAllUsers( setUsers ) {
     });
 }
 
-export function getAllCategories( setUsers ) {
-  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
+export function getAllCategories( setAllCategories ) {
+   // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -114,9 +193,8 @@ export function getAllCategories( setUsers ) {
   return axios
     .get(`${baseUrl}attraction/GetAllCategories`, { headers: headers })
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
-        setUsers(response.data);
+        setAllCategories(response.data);
       }
     })
     .catch((error) => {
@@ -126,7 +204,6 @@ export function getAllCategories( setUsers ) {
 
 
 export function getAllAuthors( setAuthors ) {
-  const token = localStorage.getItem("token").replace(/['"]+/g, ''); // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -134,7 +211,6 @@ export function getAllAuthors( setAuthors ) {
   return axios
     .get(`${baseUrl}author/`, { headers: headers })
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         setAuthors(response.data);
       }
@@ -143,3 +219,57 @@ export function getAllAuthors( setAuthors ) {
       console.log(error);
     });
 }
+
+
+export function getAllTecniques( setTequiques ) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}tecnique/`, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        setTequiques(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+
+export function getAllMaterials( setMaterials ) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}material/`, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        setMaterials(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getAllStyles( setStyles ) {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  return axios
+    .get(`${baseUrl}style/`, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        setStyles(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+

@@ -6,3 +6,31 @@
 * {
   font-family: 'Inter', sans-serif;
 }
+
+
+/* Oculta las flechas de desplazamiento */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Personaliza la barra de desplazamiento completa */
+::-webkit-scrollbar {
+  width: 5px; /* Cambia el ancho de la barra de desplazamiento */
+}
+
+/* Personaliza la pista (la parte "vacía" de la barra) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Cambia al color de fondo deseado */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Personaliza el thumb (la parte móvil de la barra) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Cambia al color de fondo deseado */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Cambia el color del thumb al pasar el cursor */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Cambia al color de fondo deseado al pasar el cursor */
+}

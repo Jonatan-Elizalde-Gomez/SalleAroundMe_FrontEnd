@@ -3,7 +3,7 @@ import CardButtons from "../buttons/ButtonCard";
 
 export default function CardAttractive({ data }) {
   return (
-    <div className="flex rounded-xl border border-sw-main-darker bg-white px-7 py-5 lg:mb-5">
+    <div className="flex rounded-xl border border-zinc-200 bg-white px-7 py-5 mb-4">
       <div className="grow">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-zinc-800">

@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import iconX from "../../../assets/times2.png";
 import upload from "../../../assets/upload.png";
 import { useNavigate } from "react-router-dom";
 import { createAttractionService } from "../../utils/Services";
+import {
+  getAllAuthors,
+  getAllTecniques,
+  getAllCategories,
+  getAllMaterials,
+  getAllStyles,
+} from "../../utils/Services";
 
 function AttractiveModal({ onClose }) {
   const [name, setName] = useState("");
@@ -11,16 +18,30 @@ function AttractiveModal({ onClose }) {
   const [longitude, setLongitude] = useState("");
   const [description, setDescription] = useState("");
   const [technique, setTechnique] = useState("");
-  const [materials, setMaterials] = useState("");
+  const [material, setMaterial] = useState("");
   const [category, setCategory] = useState("");
   const [size, setSize] = useState("");
   const [style, setStyle] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [selectedMaterials, setSelectedMaterials] = useState([]);
   const [selectedTechniques, setSelectedTechniques] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [techniques, setTechniques] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [materials, setMaterials] = useState([]);
+  const [styles, setStyles] = useState([]);
+  const [images, setImages] = useState([]);
 
   const [archivo, setArchivo] = useState(null);
   const [archivoValid, setArchivoValid] = useState(true);
+
+  useEffect(() => {
+    getAllAuthors(setAuthors);
+    getAllTecniques(setTechniques);
+    getAllCategories(setCategories);
+    getAllMaterials(setMaterials);
+    getAllStyles(setStyles);
+  }, []);
 
   const handleCreateRecord = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
@@ -32,11 +53,7 @@ function AttractiveModal({ onClose }) {
       lat: parseFloat(latitude),
       lng: parseFloat(longitude),
       description: description,
-      img: [
-        {
-          url: imageURL,
-        },
-      ],
+      img: images.map((image) => ({ url: image })),
       size: Number(size),
       id_author: Number(author),
       id_style: Number(style),
@@ -46,11 +63,24 @@ function AttractiveModal({ onClose }) {
       material: selectedMaterials.map((materialId) => ({ id: materialId })),
       tecnica: selectedTechniques.map((techniqueId) => ({ id: techniqueId })),
     };
-    if (description === "" || name === "" || latitude === "" || longitude === "" || size === "" || style === "" || author === "" ||
-      imageURL === "" || selectedMaterials.length === 0 || category === "" ||selectedTechniques.length === 0) {
+    console.log(dataJson);
+    if (
+      description === "" ||
+      name === "" ||
+      latitude === "" ||
+      longitude === "" ||
+      size === "" ||
+      style === "" ||
+      author === "" ||
+      images === "" ||
+      selectedMaterials.length === 0 ||
+      category === "" ||
+      selectedTechniques.length === 0
+    ) {
       console.log("No se puede crear un registro con campos vacíos");
     } else {
       try {
+        console.log(dataJson);
         await createAttractionService(token, dataJson);
       } catch (error) {
         console.error("Error creating attraction:", error);
@@ -58,18 +88,23 @@ function AttractiveModal({ onClose }) {
     }
   };
 
-  // Función para manejar la carga de un archivo
+  // Función para agregar una nueva imagen al arreglo
   const handleFileUpload = (file) => {
     const reader = new FileReader();
 
     reader.onload = () => {
-      const url = reader.result;
-      setArchivo(file);
-      setArchivoValid(true);
-      setImageURL(url);
+      setImages((prevImages) => [...prevImages, reader.result]);
     };
 
     reader.readAsDataURL(file);
+  };
+
+  // Función para eliminar una imagen del arreglo
+  const removeImage = (indexToRemove, event) => {
+    event.stopPropagation(); // Esto previene que el evento continúe propagándose
+    setImages((prevImages) =>
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );
   };
 
   const handleLatitudeChange = (e) => {
@@ -89,19 +124,31 @@ function AttractiveModal({ onClose }) {
   };
 
   const handleMaterialsChange = (e) => {
-    const { value } = e.target;
-    console.log(value);
+    const value = e;
     setSelectedMaterials((prevMaterials) => [...prevMaterials, Number(value)]);
   };
 
+      // Función para eliminar una técnica del arreglo
+      const removeMaterial = (materialToRemove) => {
+        setSelectedMaterials((prevMaterials) =>
+        prevMaterials.filter((material) => material !== materialToRemove)
+        );
+      };
+
   const handleTechniqueChange = (e) => {
-    const { value } = e.target;
-    console.log(value);
+    const value = e;
     setSelectedTechniques((prevTechniques) => [
       ...prevTechniques,
       Number(value),
     ]);
   };
+
+    // Función para eliminar una técnica del arreglo
+    const removeTechnique = (techniqueToRemove) => {
+      setSelectedTechniques((prevTechniques) =>
+        prevTechniques.filter((technique) => technique !== techniqueToRemove)
+      );
+    };
 
   return (
     <div>
@@ -141,12 +188,16 @@ function AttractiveModal({ onClose }) {
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            onChange={(e) => {
+              setAuthor(e.target.value);
+            }}
           >
-            {/* Opciones del ComboBox */}
             <option value="">Selecciona un autor</option>
-            <option value="1">Autor 1</option>
-            <option value="2">Autor 2</option>
+            {authors.map((author) => (
+              <option key={author.id} value={author.id}>
+                {`${author.name} ${author.father_lastname} ${author.mother_lastname}`}
+              </option>
+            ))}
           </select>
 
           <div className="flex justify-between">
@@ -193,18 +244,42 @@ function AttractiveModal({ onClose }) {
 
           {/* Tecnica */}
           <label className="block text-zinc-800 text-xs mb-1">Tecnica</label>
+            {/* Chips de técnicas seleccionadas */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {selectedTechniques.map((techniqueId, index) => {
+                // Encuentra el nombre de la técnica usando el ID
+                const technique = techniques.find(t => t.id === techniqueId)?.name || '';
+                return (
+                  <div key={index} className="flex items-center bg-gray-200  rounded px-2 py-1">
+                    <span className="text-sm mr-2">{technique}</span>
+                    <button onClick={() => removeTechnique(techniqueId)} className="bg-gray-500 text-white rounded-full w-[15px] h-[15px] flex align-center justify-center p-1">
+                    <span className="relative bottom-1 text-[10px]">x</span>
+                    </button>
+
+                    <button
+                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full w-[30px] h-[30px] flex align-center justify-center"
+                      onClick={() => removeTechnique(techniqueId)}
+                    >
+                      <span className="text-center">x</span>
+                    </button>
+                  </div>
+                  
+                );
+              })}
+            </div>
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={technique}
             onChange={(e) => {
-              setTechnique(e.target.value.toString());
-              handleTechniqueChange(e);
+              handleTechniqueChange(e.target.value);
             }}
           >
-            {/* Opciones del ComboBox */}
             <option value="">Selecciona una técnica</option>
-            <option value="1">Técnica 1</option>
-            <option value="2">Técnica 2</option>
+            {techniques.map((technique) => (
+              <option key={technique.id} value={technique.id}>
+                {`${technique.name}`}
+              </option>
+            ))}
           </select>
 
           {/* Categoria */}
@@ -212,31 +287,57 @@ function AttractiveModal({ onClose }) {
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
           >
-            {/* Opciones del ComboBox */}
             <option value="">Selecciona una categoría</option>
-            <option value="1">Categoría 1</option>
-            <option value="2">Categoría 2</option>
-            {/* Agrega más opciones según tus necesidades */}
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {`${category.name}`}
+              </option>
+            ))}
           </select>
 
           {/* Materiales */}
           <label className="block text-zinc-800 text-xs mb-1">Materiales</label>
+              {/* Chips de materiales seleccionados */}
+              <div className="flex flex-wrap gap-2 mb-4">
+              {selectedMaterials.map((materialId, index) => {
+                // Encuentra el nombre de la técnica usando el ID
+                const material = materials.find(t => t.id === materialId)?.name || '';
+                return (
+                  <div key={index} className="flex items-center bg-gray-200  rounded px-2 py-1">
+                    <span className="text-sm mr-2">{material}</span>
+                    <button onClick={() => removeMaterial(materialId)} className="bg-gray-500 text-white rounded-full w-[15px] h-[15px] flex align-center justify-center p-1">
+                    <span className="relative bottom-1 text-[10px]">x</span>
+                    </button>
+
+                    <button
+                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full w-[30px] h-[30px] flex align-center justify-center"
+                      onClick={() => removeMaterial(materialId)}
+                    >
+                      <span className="text-center">x</span>
+                    </button>
+                  </div>
+                  
+                );
+              })}
+            </div>
           <select
             className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
-            value={materials}
+            value={material}
             onChange={(e) => {
-              setMaterials(e.target.value.toString());
-              handleMaterialsChange(e);
+              handleMaterialsChange(e.target.value);
             }}
           >
-            {/* Opciones del ComboBox */}
-            <option value="">Selecciona materiales</option>
-            <option value="1">Material 1</option>
-            <option value="2">Material 2</option>
+            <option value="">Selecciona un material</option>
+            {materials.map((material) => (
+              <option key={material.id} value={material.id}>
+                {`${material.name}`}
+              </option>
+            ))}
           </select>
-
           {/* Tamaño */}
           <label className="block text-zinc-800 text-xs mb-1">Tamaño</label>
           <input
@@ -250,35 +351,39 @@ function AttractiveModal({ onClose }) {
           {/* Estilo */}
           <label className="block text-zinc-800 text-xs mb-1">Estilo</label>
           <select
-            className="w-full mb-4 p-2 border border-gray-300 rounded"
+            className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
             value={style}
-            onChange={(e) => setStyle(e.target.value)}
+            onChange={(e) => {
+              setStyle(e.target.value);
+            }}
           >
-            {/* Opciones del ComboBox */}
             <option value="">Selecciona un estilo</option>
-            <option value="1">Estilo 1</option>
-            <option value="2">Estilo 2</option>
+            {styles.map((style) => (
+              <option key={style.id} value={style.id}>
+                {`${style.name}`}
+              </option>
+            ))}
           </select>
 
           {/* Dropzone */}
           <div>
             <div
-              className={`bg-white border-dashed border-2 rounded-md p-4 mt-2 h-[150px] lg:h-[270px] bg-cover text-center flex flex-col justify-center items-center cursor-pointer ${
+              className={`bg-white border-dashed border-2 rounded-md p-4 mt-2 h-auto lg:h-[270px] text-center flex flex-wrap justify-center items-center cursor-pointer ${
                 archivoValid ? "border-gray-300" : "border-red-500"
               }`}
-              style={{ backgroundImage: `url(${imageURL})` }}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
-                const file = e.dataTransfer.files[0];
-                // Realizar el manejo del archivo seleccionado (por ejemplo, guardar en el estado)
-                handleFileUpload(file);
+                Array.from(e.dataTransfer.files).forEach((file) =>
+                  handleFileUpload(file)
+                );
               }}
               // En el evento de hacer clic para seleccionar un archivo
               onClick={() => {
                 const fileInput = document.createElement("input");
                 fileInput.type = "file";
                 fileInput.accept = ".jpg, .jpeg, .png";
+                fileInput.multiple = true;
                 fileInput.style.display = "none";
                 document.body.appendChild(fileInput);
 
@@ -292,15 +397,56 @@ function AttractiveModal({ onClose }) {
                 fileInput.click();
               }}
             >
-              <img
-                src={upload}
-                alt="Cargando..."
-                className="mx-auto mb-4 w-6 h-6"
-              />
-              <p className="text-neutral-500 text-xs">
-                Arrastra y suelta aquí las imágenes, o haz clic para
-                seleccionarlas
-              </p>
+              {images.length > 0 &&
+                images.map((image, index) => (
+                  <div key={index} className="relative p-2">
+                    <img
+                      src={image}
+                      alt={`Cargada ${index}`}
+                      className="w-24 h-24 object-cover"
+                    />
+                    <button
+                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full w-[30px] h-[30px] flex align-center justify-center"
+                      onClick={(e) => removeImage(index, e)}
+                    >
+                      <span className="text-center">x</span>
+                    </button>
+                  </div>
+                ))}
+              <div
+                className="flex flex-col justify-center items-center"
+                onClick={() => {
+                  const fileInput = document.createElement("input");
+                  fileInput.type = "file";
+                  fileInput.accept = ".jpg, .jpeg, .png";
+                  fileInput.multiple = true;
+                  fileInput.style.display = "none";
+                  document.body.appendChild(fileInput);
+
+                  fileInput.addEventListener("change", (e) => {
+                    Array.from(e.target.files).forEach((file) =>
+                      handleFileUpload(file)
+                    );
+                    document.body.removeChild(fileInput);
+                  });
+
+                  fileInput.click();
+                }}
+              >
+                {images.length < 5 && (
+                  <>
+                    <img
+                      src={upload}
+                      alt="Cargar"
+                      className="mx-auto mb-4 w-6 h-6"
+                    />
+                    <p className="text-neutral-500 text-xs">
+                      Arrastra y suelta aquí las imágenes, o haz clic para
+                      seleccionarlas
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 

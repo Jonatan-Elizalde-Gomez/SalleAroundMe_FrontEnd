@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import iconX from "../../../assets/times2.png";
 import { useNavigate } from "react-router-dom"; 
-import {registerCategoryService} from "../../utils/Services";
+import {registerMaterialService} from "../../utils/Services";
 
-function CategoryModal({ onClose }) {
+function MaterialModal({ onClose }) {
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
 
   const handleCreateRecord = () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
     const dataJson = {	
       "name": name,
-      "description": description,
     }
     
-    registerCategoryService( dataJson);
+    registerMaterialService(dataJson);
   };
 
   return (
@@ -25,7 +23,7 @@ function CategoryModal({ onClose }) {
       <div className="fixed inset-0 flex items-center justify-center z-[70]">
         <div className="bg-white p-8 rounded shadow-md w-[575px] max-h-[600px] overflow-y-auto">
           <div className='flex justify-between'>
-            <h2 className="text-xl font-semibold">Crear categoría</h2>
+            <h2 className="text-xl font-semibold">Crear material</h2>
             <img src={iconX} className="w-6 h-6 cursor-pointer" alt="x" onClick={onClose}/>
           </div>
           <p className="text-base text-gray-500 mb-6">Completa el siguiente formulario para añadir un nuevo registro</p>
@@ -42,19 +40,6 @@ function CategoryModal({ onClose }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
-          {/* Descripcion */}
-          <label className="block text-zinc-800 text-xs mb-1">
-          Descripcion
-          </label>
-          <textarea
-            placeholder="Descripcion"
-            className="w-full mb-4 p-2 placeholder-stone-300 border border-gray-300 rounded"
-            rows="4"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-
           {/* Botones */}
           <div className="flex justify-end mt-5">
             <button
@@ -76,4 +61,4 @@ function CategoryModal({ onClose }) {
   );
 }
 
-export default CategoryModal;
+export default MaterialModal;
