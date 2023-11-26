@@ -10,7 +10,7 @@ import {
 export const getAttractionById = (id) => async (dispatch) => {
   dispatch(getAttractionStart());
   await privateApi
-    .get(`attraction/GetAllAttractionsById/${id}`)
+    .get(`attraction/GetAttractionById/${id}`)
     .then((response) => {
       if (response.data.length < 0) {
         console.log("Error fetching data from API");

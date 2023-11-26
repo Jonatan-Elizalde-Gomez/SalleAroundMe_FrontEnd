@@ -3,12 +3,12 @@ import RemoveIcon from "../../../assets/remove_icon.svg";
 import Dropdown from "../../basic/dropdown/Dropdown";
 import ArrowIcon from "../../../assets/return-icon.svg";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../app/store";
 import LoadingGif from "../../../assets/loading.gif";
 import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
 import { handleSearchChange } from "../../../utils/search";
-import AttractionDetail from '../sidebar/AttractionDetail'
+import AttractionDetail from "../sidebar/AttractionDetail";
+import AttractionsByCategory from "./AttractionsByCategory";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,54 +16,41 @@ function Sidebar() {
   const [openSearchItems, setOpenSearchItems] = useState(false);
   const [positionPanel, setPositionPanel] = useState(false);
   const [attractions, setAttractions] = useState(null);
-  const [attraction, setAttraction] = useState(null);
-  const [attractionByCategory, setAttractionByCategory] = useState(null);
 
   const { handleGetAllAttractions } = useMapAllAttractions();
 
-  const navigate = useNavigate();
-  const { data: attractionsMapData, loading: attractionsMapLoading } =
-    useAppSelector((state) => state.attractionsMapReducer);
-
-  const { data: attractionMapData, loading: attractionMapLoading } =
-    useAppSelector((state) => state.attractionMapReducer);
+  const { data: attractionsData, loading: attractionsLoading } = useAppSelector(
+    (state) => state.attractionsMapReducer
+  );
 
   const {
     data: attractionsByCategoryData,
     loading: attractionsByCategoryLoading,
   } = useAppSelector((state) => state.attractionsByCategoryReducer);
 
+  const { data: attractionDetailData, loading: attractionDetailLoading } =
+    useAppSelector((state) => state.attractionMapReducer);
+
+  const { showAll, showSingle, showByCategory } = useAppSelector(
+    (state) => state.attractionsToShowReducer
+  );
+
   const handleCloseSearchItems = () => {
     setOpenSearchItems(false);
+    setSearchQuery("");
   };
 
   useEffect(() => {
-    if (!attractionsMapData) {
+    if (!attractionsData && !attractionsLoading) {
       handleGetAllAttractions();
     }
-  }, [handleGetAllAttractions, attractionsMapData]);
+  }, [handleGetAllAttractions, attractionsData, attractionsLoading]);
 
   useEffect(() => {
-    if (
-      attractionsMapData &&
-      !attractionMapData &&
-      !attractionsByCategoryData
-    ) {
-      setAttractions(attractionsMapData);
-    } else if (
-      attractionMapData &&
-      !attractionsMapData &&
-      !attractionsByCategoryData
-    ) {
-      setAttractions(attractionMapData);
-    }else if (
-      attractionsByCategoryData &&
-      !attractionMapData &&
-      !attractionsMapData
-    ) {
-      setAttractions(attractionsByCategoryData);
+    if (attractionsData) {
+      setAttractions(attractionsData);
     }
-  }, [attractionMapData, attractionsByCategoryData, attractionsMapData]);
+  }, [attractionsData]);
 
   return (
     <div
@@ -88,7 +75,7 @@ function Sidebar() {
                 event,
                 setSearchQuery,
                 setOpenSearchItems,
-                attractionsMapData,
+                attractionsData,
                 setSearchResults
               )
             }
@@ -130,40 +117,52 @@ function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-scroll">
-        {attractionsMapLoading && (
+        {attractionsLoading && (
           <div className="flex flex-col justify-center items-center h-full">
             <img className="w-16" src={LoadingGif} alt="loading" />
             <p>Cargando atracciones</p>
           </div>
         )}
-        {attractions &&
-          Array.isArray(attractions) &&
-          attractions.map((attraction) => (
-            <Dropdown
-              key={attraction.id}
-              category={attraction.name}
-              attraction={attraction.attractions}
-            />
-          ))}
-        {attraction && (
-          <AttractionDetail
-            id={attraction.id}
-            category={attraction.category_name}
-            name={attraction.name}
-            description={attraction.description}
-            author={attraction.author_name}
-            tecnique={attraction.tecnique_name}
-            material={attraction.material_name}
-            size={attraction.size}
-            style={attraction.style_name}
-            images={attraction.img}
-            lat={attraction.lat}
-            lng={attraction.lng}
-          />
+        {attractionsByCategoryLoading && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img className="w-16" src={LoadingGif} alt="loading" />
+            <p>Cargando atracciones por categoría</p>
+          </div>
         )}
+        {attractionDetailLoading && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img className="w-16" src={LoadingGif} alt="loading" />
+            <p>Cargando detalle de la atracción</p>
+          </div>
+        )}
+        {/* All Attractions */}
+        <div>
+          {attractions &&
+            showAll &&
+            Array.isArray(attractions) &&
+            attractions.map((attraction) => (
+              <Dropdown
+                key={attraction.id}
+                category={attraction.name}
+                attraction={attraction.attractions}
+              />
+            ))}
+        </div>
+        {/* All Attractions By Category */}
+        <div>
+          {attractionsByCategoryData && showByCategory && (
+            <AttractionsByCategory attractions={attractionsByCategoryData} />
+          )}
+        </div>
+        {/* Attraction Detail */}
+        <div>
+          {attractionDetailData && showSingle && (
+            <AttractionDetail attraction={attractionDetailData} />
+          )}
+        </div>
         <button
-          onClick={() => navigate("/collaborators")}
-          className="text-left flex items-center px-8 gap-x-2 py-5 hover:bg-sw-main-lighter"
+          onClick={() => window.open("/collaborators", "_blank")}
+          className="text-left flex items-center w-full px-8 gap-x-2 py-5 hover:bg-sw-main-lighter"
         >
           <img className="w-10" src={SalleLogo} alt="logo-salle" />
           <div>

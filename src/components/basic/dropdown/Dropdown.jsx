@@ -33,7 +33,7 @@ function Dropdown({ category, attraction }) {
             <CardWeb
               key={attractionItem.id}
               id={attractionItem.id}
-              category={category}
+              category={attractionItem.category_name}
               name={attractionItem.name}
               description={attractionItem.description}
               img={attractionItem.img}

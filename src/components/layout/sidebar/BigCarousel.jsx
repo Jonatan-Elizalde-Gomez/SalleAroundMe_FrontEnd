@@ -2,7 +2,7 @@ import Carousel from "nuka-carousel";
 import SwipIcon from "../../../assets/chevron_icon.svg";
 import CloseIcon from "../../../assets/close_white.svg";
 
-function BigCarousel({ images, setBigCarrousel }) {
+function BigCarousel({ name, images, setBigCarrousel }) {
   return (
     <div className="absolute flex items-center justify-center z-50 top-0 right-0 w-full h-screen bg-[rgba(0,0,0,0.7)]">
       <button
@@ -44,8 +44,8 @@ function BigCarousel({ images, setBigCarrousel }) {
             <img
               key={index}
               className="rounded-xl w-full h-[70vh] object-cover"
-              src={image.url}
-              alt={image.description}
+              src={image}
+              alt={`imagen-${name}-index`}
             />
           ))}
         </Carousel>

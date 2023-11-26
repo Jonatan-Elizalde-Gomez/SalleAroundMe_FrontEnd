@@ -1,4 +1,50 @@
-export const usersData = [
+export const collaborators = [
+  {
+    area: "Académicos",
+    collaborators: [
+      {
+        fullname: "Dr. Enrique Aguilar",
+        image:
+          "https://media.licdn.com/dms/image/C4E03AQEtIs9JvdnBwg/profile-displayphoto-shrink_400_400/0/1637455749298?e=1706140800&v=beta&t=4SC0j05O0jA5T0J3e9mOKkluFRfG8F_IDb0s5AdvRGg",
+        description:
+          "Director de la Facultad de Ingenierías y Tecnologías de la Universidad La Salle Bajío. Doctor en Sistemas con línea de Investigación en I.A., Galardonado con el Microsoft MVP & Reconnect. Dev C#, Mobile, .NET Core, Azure",
+        linkedin: "https://www.linkedin.com/in/enriqueaguilarvargas/",
+        github: "",
+        email: "",
+      },
+      {
+        fullname: "Felipe Hernández Palafox",
+        image:
+          "https://media.licdn.com/dms/image/D4E03AQE4KYslVDORbQ/profile-displayphoto-shrink_400_400/0/1693804929409?e=1706140800&v=beta&t=AX0Q1JkF9xR-5dqsrEpzF3PkLjh5lCannOOU-7pbiE8",
+        description:
+          "Secretario académico en la Salle Bajío | Docente | consultor de sistemas | Speaker sobre tecnologías de la información | Investigador.",
+        linkedin:
+          "https://www.linkedin.com/in/felipe-hern%C3%A1ndez-palafox-19513886/",
+        github: "",
+        email: "",
+      },
+      {
+        fullname: "José María Cruz Parada",
+        image:
+          "https://media.licdn.com/dms/image/D4E03AQEqroCQoekttw/profile-displayphoto-shrink_400_400/0/1699958593959?e=1706140800&v=beta&t=fqe0EXCmBXB7Pu4mOIUGj3mIPV2ZVy4ufu8Hp7YZw3g",
+        description: "CoFounder @Inventer",
+        linkedin: "https://www.linkedin.com/in/ichema/",
+        github: "",
+        email: "",
+      },
+      {
+        fullname: "Miguel S. Gómez Díaz",
+        image:
+          "https://media.licdn.com/dms/image/C5603AQFeaxEkzpr70Q/profile-displayphoto-shrink_400_400/0/1635304299477?e=1706140800&v=beta&t=RrQeXjKgafpFHSEVH7o-HeWAKMezOLWd2c3yrVPVZwI",
+        description:
+          "Jefe Académico de ISSC || Machine Learning Engineer || Software Developer || Data Scientist",
+        linkedin:
+          "https://www.linkedin.com/in/miguel-s-g%C3%B3mez-d%C3%ADaz-b8a9b0224/",
+        github: "",
+        email: "",
+      },
+    ],
+  },
   {
     area: "Equipo de Front-end",
     collaborators: [
@@ -70,7 +116,8 @@ export const usersData = [
         fullname: "González Flores Ricardo ",
         image:
           "https://media.licdn.com/dms/image/D4E03AQGD2KU5WYEayQ/profile-displayphoto-shrink_400_400/0/1695950700971?e=1704931200&v=beta&t=OuZXbWPUSNoHwddb0MO2qoIAsopocXdpq7I-YqJN5I4",
-        description: "Apasionado por el diseño y el desarrollo. Arriba los capibaras.",
+        description:
+          "Apasionado por el diseño y el desarrollo. Arriba los capibaras.",
         linkedin: "https://www.linkedin.com/in/ricardogf396/",
         github: "https://github.com/RicardoGF396",
         email: "ricardogf396@gmail.com",

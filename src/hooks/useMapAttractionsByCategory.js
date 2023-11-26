@@ -1,14 +1,12 @@
 import { useAppDispatch } from "../app/store";
 import { getAllAttractionsByCategory } from "../redux/thunks/attractionsByCategoryThunk";
-import { resetAttractions } from "../redux/thunks/attractionsMapThunk";
-import { resetAttraction } from "../redux/thunks/attractionMapThunk";
+import { showByCategory } from "../redux/thunks/attractionsToShowThunk";
 
 const useMapAttractionsByCategory = () => {
   const dispatch = useAppDispatch();
 
-  const handleGetAllAttractionsByCategory = (id) => {
-    dispatch(resetAttractions);
-    dispatch(resetAttraction);
+  const handleGetAllAttractionsByCategory = async (id) => {
+    dispatch(showByCategory());
     dispatch(getAllAttractionsByCategory(id));
   };
 
