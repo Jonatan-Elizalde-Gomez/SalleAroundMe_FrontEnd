@@ -107,7 +107,7 @@ function AttractionDetail({ attraction }) {
 
           <div>
             <p className="text-xs text-sw-gray py-2">Fotos</p>
-            <div className="w-full h-[250px] flex gap-x-4 overflow-x-hidden">
+            <div className="w-full h-[260px] flex gap-x-4 overflow-hidden">
               <Carousel
                 wrapAround={true}
                 slidesToShow={1.1}
@@ -143,7 +143,7 @@ function AttractionDetail({ attraction }) {
                 {img.map((image, index) => (
                   <button key={index} onClick={() => setOpenBigCarrousel(true)}>
                     <img
-                      className="rounded-xl h-[250px] object-cover"
+                      className="rounded-xl h-[250px] w-[600px] object-cover"
                       src={image}
                       alt={`imagen-${name}`}
                       loading="lazy"
