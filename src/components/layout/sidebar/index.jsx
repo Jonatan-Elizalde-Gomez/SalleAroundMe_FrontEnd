@@ -9,6 +9,8 @@ import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
 import { handleSearchChange } from "../../../utils/search";
 import AttractionDetail from "../sidebar/AttractionDetail";
 import AttractionsByCategory from "./AttractionsByCategory";
+import useMapAttraction from "../../../hooks/useMapAttraction";
+import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,6 +20,8 @@ function Sidebar() {
   const [attractions, setAttractions] = useState(null);
 
   const { handleGetAllAttractions } = useMapAllAttractions();
+  const { handleGetAttractionById } = useMapAttraction();
+  const { handleDectivateCategoryButton } = useMapCategoryButtons();
 
   const { data: attractionsData, loading: attractionsLoading } = useAppSelector(
     (state) => state.attractionsMapReducer
@@ -38,6 +42,12 @@ function Sidebar() {
   const handleCloseSearchItems = () => {
     setOpenSearchItems(false);
     setSearchQuery("");
+  };
+
+  const handleDetailAttraction = (id) => {
+    handleDectivateCategoryButton();
+    handleGetAttractionById(id);
+    handleCloseSearchItems();
   };
 
   useEffect(() => {
@@ -93,6 +103,7 @@ function Sidebar() {
               searchResults.map((category) =>
                 category.map((attraction) => (
                   <button
+                    onClick={() => handleDetailAttraction(attraction.id)}
                     key={attraction.id}
                     className="py-3 border-b px-3 hover:bg-sw-main-lighter text-left"
                   >
