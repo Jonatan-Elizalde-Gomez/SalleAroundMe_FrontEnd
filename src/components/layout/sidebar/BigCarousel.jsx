@@ -4,7 +4,7 @@ import CloseIcon from "../../../assets/close_white.svg";
 
 function BigCarousel({ name, images, setBigCarrousel }) {
   return (
-    <div className="absolute flex items-center justify-center z-50 top-0 right-0 w-full h-screen bg-[rgba(0,0,0,0.7)]">
+    <div className="fixed flex items-center justify-center z-50 top-0 right-0 w-full h-screen bg-[rgba(0,0,0,0.7)]">
       <button
         className="absolute top-8 right-12 lg:top-16 lg:right-32"
         onClick={() => setBigCarrousel(false)}

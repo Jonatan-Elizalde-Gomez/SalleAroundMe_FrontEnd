@@ -54,7 +54,7 @@ function WebApp() {
           <p>Colaboradores</p>
         </button>
 
-        <div className="absolute flex flex-wrap gap-y-2 gap-x-8 left-11 top-5 z-[5]">
+        <div className="absolute flex flex-wrap gap-y-2 gap-x-8 left-3 lg:left-11 top-5 z-[5]">
           {categories &&
             categories.map((category) => (
               <CategoryBtn
