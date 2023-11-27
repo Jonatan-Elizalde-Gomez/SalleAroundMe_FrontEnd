@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from "react";
 const baseUrl = "https://salle-around-me.onrender.com/";
-const token = localStorage.getItem("token").replace(/['"]+/g, ''); 
+const token = localStorage.getItem("token").replace(/['"]+/g, '');
 
 export const loginService = async credentials => {
   try {
@@ -24,12 +24,12 @@ export const loginService = async credentials => {
 };
 
 
-export const createAttractionService = async (token, dataJson) => {
+export const createAttractionService = async (dataJson,token) => {
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}attraction/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}attraction/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -43,12 +43,13 @@ export const createAttractionService = async (token, dataJson) => {
 
 
 
-export const registerUserService = async (token, dataJson) => {
+export const registerUserService = async (dataJson) => {
+  console.log(token)
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}user/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}user/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -66,7 +67,7 @@ export const registerAuthorService = async (dataJson) => {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}author/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}author/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -84,7 +85,7 @@ export const registerCategoryService = async (dataJson) => {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}category/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}category/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -101,7 +102,7 @@ export const registerMaterialService = async (dataJson) => {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}material/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}material/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -118,7 +119,7 @@ export const registerTecniqueService = async (dataJson) => {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}tecnique/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}tecnique/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -135,7 +136,7 @@ export const registerStyleService = async (dataJson) => {
     "Authorization": `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(`${baseUrl}style/`, dataJson, {headers: headers});
+    const response = await axios.post(`${baseUrl}style/`, dataJson, { headers: headers });
   } catch (error) {
     if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta
@@ -147,14 +148,17 @@ export const registerStyleService = async (dataJson) => {
   }
 };
 
-export function getAllAtractions( setAtraction, id ) {
-   // Asumiendo que quieres eliminar comillas
+export function getAllAtractions(setAtraction, id) {
+  // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
 
+  const cadena =`attraction/GetAttractionsByCategory/${id}`
+  //const cadena = "attraction/"
+
   return axios
-    .get(`${baseUrl}attraction/GetAttractionsByCategory/${id}`, { headers: headers })
+    .get(`${baseUrl}${cadena}`, { headers: headers })
     .then((response) => {
       if (response.status === 200) {
         setAtraction(response.data);
@@ -166,8 +170,8 @@ export function getAllAtractions( setAtraction, id ) {
 }
 
 
-export function getAllUsers( setUsers ) {
-   // Asumiendo que quieres eliminar comillas
+export function getAllUsers(setUsers) {
+  // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -184,8 +188,8 @@ export function getAllUsers( setUsers ) {
     });
 }
 
-export function getAllCategories( setAllCategories ) {
-   // Asumiendo que quieres eliminar comillas
+export function getAllCategories(setAllCategories) {
+  // Asumiendo que quieres eliminar comillas
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -203,7 +207,7 @@ export function getAllCategories( setAllCategories ) {
 }
 
 
-export function getAllAuthors( setAuthors ) {
+export function getAllAuthors(setAuthors) {
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -221,7 +225,7 @@ export function getAllAuthors( setAuthors ) {
 }
 
 
-export function getAllTecniques( setTequiques ) {
+export function getAllTecniques(setTequiques) {
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -239,7 +243,7 @@ export function getAllTecniques( setTequiques ) {
 }
 
 
-export function getAllMaterials( setMaterials ) {
+export function getAllMaterials(setMaterials) {
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -256,7 +260,7 @@ export function getAllMaterials( setMaterials ) {
     });
 }
 
-export function getAllStyles( setStyles ) {
+export function getAllStyles(setStyles) {
   const headers = {
     "Authorization": `Bearer ${token}`,
   };
@@ -273,3 +277,116 @@ export function getAllStyles( setStyles ) {
     });
 }
 
+// All Puts ********************************
+
+export const updateStyleService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}style/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateMaterialService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}material/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateTecniqueService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}tecnique/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateCategoryService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}category/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateAuthorService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}author/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateUserService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}user/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const updateAttractionService = async (dataJson, id) => {
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  };
+
+  await axios.put(`${baseUrl}attraction/${id}`, dataJson, { headers: headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

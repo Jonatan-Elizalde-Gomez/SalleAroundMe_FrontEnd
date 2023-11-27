@@ -38,7 +38,6 @@ function AdminDashboard() {
   const [styles, setStyles] = useState(null);
 
   function clear() {
-    setSelectedCard(null);
     setIsAtractive(false);
     setAtraction(null);
     setIsUser(false);
@@ -54,11 +53,7 @@ function AdminDashboard() {
     setIsStyles(false)
     setStyles(null)
   }
-
-
-
   useEffect(() => {
-
     const fetchData = async () => {
       if (Array.isArray(selectedCard)) {
         const idCategory = selectedCard[0].id; // idCategory será 1
@@ -145,35 +140,35 @@ function AdminDashboard() {
     {isAtractive &&
       atraction &&
       atraction.map((atrac, index) => (
-        <CardAttractive key={index} data={atrac} />
+        <CardAttractive key={index} data={atrac} selectedCard={selectedCard}/>
       ))}
     {isUser &&
       users &&
-      users.map((user, index) => <CardUsers key={index} data={user} />)}
+      users.map((user, index) => <CardUsers key={index} data={user} selectedCard={selectedCard}/>)}
     {isCategories &&
       categories &&
       categories.map((category, index) => (
-        <CardCategory key={index} data={category} />
+        <CardCategory key={index} data={category} selectedCard={selectedCard}/>
       ))}
     {isAuthor &&
       authors &&
       authors.map((author, index) => (
-        <CardAuthor key={index} data={author} />
+        <CardAuthor key={index} data={author} selectedCard={selectedCard}/>
       ))}
     {isTecnique &&
       tecniques &&
       tecniques.map((tecnique, index) => (
-        <CardTecnique key={index} data={tecnique} />
+        <CardTecnique key={index} data={tecnique} selectedCard={selectedCard}/>
       ))}
     {isMaterial &&
       materials &&
       materials.map((material, index) => (
-        <CardMaterial key={index} data={material} />
+        <CardMaterial key={index} data={material} selectedCard={selectedCard}/>
       ))}
     {isStyles &&
       styles &&
       styles.map((style, index) => (
-        <CardStyle key={index} data={style} />
+        <CardStyle key={index} data={style} selectedCard={selectedCard}/>
       ))}
   </PageLayout>
   );

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import iconX from "../../../assets/times2.png";
-import {registerAuthorService} from "../../utils/Services";
+import {registerAuthorService, updateAuthorService} from "../../utils/Services";
 
-function AuthorModal({ onClose }) {
-  const [name, setName] = useState('');
-  const [fatherLastname, setFatherLastname] = useState('');
-  const [motherLastname, setMotherLastname] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [death, setDeath] = useState('');
+function AuthorModal({ onClose, data }) {
+  const [name, setName] = useState(data?.name ?? '');
+  const [fatherLastname, setFatherLastname] = useState(data?.father_lastname ?? '');
+  const [motherLastname, setMotherLastname] = useState(data?.mother_lastname ?? '');
+  const [birthday, setBirthday] = useState(data?.birthday ? new Date(data.birthday).toISOString().split('T')[0] : '');
+  const [death, setDeath] = useState(data?.death ? new Date(data.death).toISOString().split('T')[0] : '');
+
+  console.log(data)
 
   const createAuthorService = () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
@@ -21,8 +23,13 @@ function AuthorModal({ onClose }) {
       "birthday": formattedBirthday,
       "death": formattedDeath
     }
-    registerAuthorService( dataJson);
-  
+    if (data) {
+      // Aquí puedes realizar lógica específica para la edición
+      updateAuthorService(dataJson, data.id);
+    } else {
+      // Lógica para la creación
+      registerAuthorService( dataJson);
+    }
   };
 
   return (
@@ -34,11 +41,14 @@ function AuthorModal({ onClose }) {
       <div className="fixed inset-0 flex items-center justify-center z-[70]">
         <div className="bg-white p-8 rounded shadow-md w-[575px] max-h-[600px] overflow-y-auto">
           <div className='flex justify-between'>
-            <h2 className="text-xl font-semibold">Agregar autor</h2>
+            <h2 className="text-xl font-semibold">{data ? "Editar autor" : "Agregar autor"}</h2>
             <img src={iconX} className="w-6 h-6 cursor-pointer" alt="cerrar" onClick={onClose}/>
           </div>
-          <p className="text-base text-gray-500 mb-6">Completa el siguiente formulario para añadir un nuevo autor</p>
-          
+          <p className="text-base text-gray-500 mb-6">
+          {data
+              ? "Completa el siguiente formulario para editar el registro"
+              : "Completa el siguiente formulario para añadir un nuevo registro"}
+            </p>
           {/* Formulario */}
           <div className="space-y-4">
             {/* Nombre */}
@@ -122,7 +132,7 @@ function AuthorModal({ onClose }) {
               className="bg-blue-500 text-white w-52 h-9 px-4 py-2 flex justify-center items-center rounded-lg hover:bg-blue-600"
               onClick={createAuthorService}
             >
-              Agregar
+              {data ? "Editar" : "Agregar"}
             </button>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import iconX from "../../../assets/times2.png";
 import { useNavigate } from "react-router-dom"; 
-import {registerCategoryService} from "../../utils/Services";
+import {registerCategoryService, updateCategoryService} from "../../utils/Services";
 
-function CategoryModal({ onClose }) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+function CategoryModal({ onClose, data }) {
+  const [name, setName] = useState(data?.name ?? '');
+  const [description, setDescription] = useState(data?.description ?? '');
 
   const handleCreateRecord = () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
@@ -13,8 +13,13 @@ function CategoryModal({ onClose }) {
       "name": name,
       "description": description,
     }
-    
-    registerCategoryService( dataJson);
+    if (data) {
+      // Aquí puedes realizar lógica específica para la edición
+      updateCategoryService(dataJson, data.id);
+    } else {
+      // Lógica para la creación
+      registerCategoryService( dataJson);
+    }
   };
 
   return (
@@ -25,10 +30,14 @@ function CategoryModal({ onClose }) {
       <div className="fixed inset-0 flex items-center justify-center z-[70]">
         <div className="bg-white p-8 rounded shadow-md w-[575px] max-h-[600px] overflow-y-auto">
           <div className='flex justify-between'>
-            <h2 className="text-xl font-semibold">Crear categoría</h2>
+            <h2 className="text-xl font-semibold">{data ? "Editar categoría" : "Crear categoría"}</h2>
             <img src={iconX} className="w-6 h-6 cursor-pointer" alt="x" onClick={onClose}/>
           </div>
-          <p className="text-base text-gray-500 mb-6">Completa el siguiente formulario para añadir un nuevo registro</p>
+          <p className="text-base text-gray-500 mb-6">
+          {data
+              ? "Completa el siguiente formulario para editar el registro"
+              : "Completa el siguiente formulario para añadir un nuevo registro"}
+            </p>
           {/* Content */}
 
           {/* Nombre */}
@@ -67,7 +76,7 @@ function CategoryModal({ onClose }) {
               className="bg-blue-500 text-white w-52 h-9 px-4 py-2 flex justify-center items-center rounded-lg hover:bg-blue-600"
               onClick={handleCreateRecord}
             >
-              Crear
+              {data ? "Editar" : "Crear"}
             </button>
           </div>
         </div>

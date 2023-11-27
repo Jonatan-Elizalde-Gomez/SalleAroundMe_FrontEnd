@@ -3,7 +3,7 @@ import CardButtons from "../buttons/ButtonCard";
 import { format, parse } from "date-fns";
 import { es } from "date-fns/locale";
 
-export default function CardAuthor({ data }) {
+export default function CardAuthor({ data, selectedCard }) {
   // Función para formatear la fecha desde un formato específico
   const formatDate = (dateString) => {
     // Verifica que dateString es una cadena no vacía
@@ -48,7 +48,7 @@ export default function CardAuthor({ data }) {
               <p className="text-neutral-500">{data.death ? formatDate(data.death) : 'N/A'}</p>
             </div>
           </div>
-          <CardButtons />
+          <CardButtons data={data} selectedCard={selectedCard}/>
         </div>
       </div>
     </div>
