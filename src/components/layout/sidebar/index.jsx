@@ -11,6 +11,7 @@ import AttractionDetail from "../sidebar/AttractionDetail";
 import AttractionsByCategory from "./AttractionsByCategory";
 import useMapAttraction from "../../../hooks/useMapAttraction";
 import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
+import useMapAttractionsByCategory from "../../../hooks/useMapAttractionsByCategory";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,7 @@ function Sidebar() {
   const { handleGetAllAttractions } = useMapAllAttractions();
   const { handleGetAttractionById } = useMapAttraction();
   const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
 
   const { data: attractionsData, loading: attractionsLoading } = useAppSelector(
     (state) => state.attractionsMapReducer
@@ -45,9 +47,10 @@ function Sidebar() {
   };
 
   const handleDetailAttraction = (id) => {
+    handleResetAllAttractionsByCategory();
     handleDectivateCategoryButton();
-    handleGetAttractionById(id);
     handleCloseSearchItems();
+    handleGetAttractionById(id);
   };
 
   useEffect(() => {

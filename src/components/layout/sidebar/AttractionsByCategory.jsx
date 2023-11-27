@@ -1,17 +1,19 @@
 import ReturnIcon from "../../../assets/return-icon.svg";
 import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
+import useMapAttractionsByCategory from "../../../hooks/useMapAttractionsByCategory";
 import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
 import CardWeb from "../../basic/cards/CardWeb";
 
-function AttractionsByCategory({ attractions }) { 
-
+function AttractionsByCategory({ attractions }) {
   const { handleShowAllAttractions } = useMapAllAttractions();
+  const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
   const { handleDectivateCategoryButton } = useMapCategoryButtons();
 
   const handleReturn = () => {
     handleDectivateCategoryButton();
     handleShowAllAttractions();
-  }
+    handleResetAllAttractionsByCategory();
+  };
 
   return (
     <div className="">

@@ -1,11 +1,19 @@
 import { useEffect } from "react";
 import { useAppSelector } from "../../../app/store.js";
 import useMapAttractionsByCategory from "../../../hooks/useMapAttractionsByCategory.js";
+import useMapAllAttractions from "../../../hooks/useMapAllAttractions.js";
 import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons.js";
+import useMapAttraction from "../../../hooks/useMapAttraction.js";
 
 function CategoryBtn({ id, category, selectedCategory, onSelectCategory }) {
-  const { handleGetAllAttractionsByCategory } = useMapAttractionsByCategory();
-  const { handleActivateCategoryButton } = useMapCategoryButtons();
+  const {
+    handleGetAllAttractionsByCategory,
+    handleResetAllAttractionsByCategory,
+  } = useMapAttractionsByCategory();
+  const { handleShowAllAttractions } = useMapAllAttractions();
+  const { handleActivateCategoryButton, handleDectivateCategoryButton } =
+    useMapCategoryButtons();
+  const { handleResetAttraction } = useMapAttraction();
   const { selectedCategoryButton } = useAppSelector(
     (state) => state.categoryButtonsReducer
   );
@@ -14,10 +22,15 @@ function CategoryBtn({ id, category, selectedCategory, onSelectCategory }) {
     /* Remove the selection of all the category buttons */
     if (selectedCategory === category) {
       onSelectCategory(null);
+      handleShowAllAttractions(id);
+      handleDectivateCategoryButton();
+      handleResetAllAttractionsByCategory();
+      handleResetAttraction();
     } else {
       onSelectCategory(category);
       handleGetAllAttractionsByCategory(id);
       handleActivateCategoryButton();
+      handleResetAttraction();
     }
   };
 

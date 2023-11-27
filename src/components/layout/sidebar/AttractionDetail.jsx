@@ -5,6 +5,9 @@ import Carousel from "nuka-carousel";
 import SwipIcon from "../../../assets/chevron_icon.svg";
 import BigCarousel from "./BigCarousel";
 import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
+import useMapAttractionsByCategory from "../../../hooks/useMapAttractionsByCategory";
+import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
+import useMapAttraction from "../../../hooks/useMapAttraction";
 
 function AttractionDetail({ attraction }) {
   const {
@@ -24,10 +27,16 @@ function AttractionDetail({ attraction }) {
   const [openBigCarrousel, setOpenBigCarrousel] = useState(false);
 
   const { handleShowAllAttractions } = useMapAllAttractions();
+  const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
+  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleResetAttraction } = useMapAttraction();
 
   const handleReturn = () => {
     handleShowAllAttractions();
-  }
+    handleDectivateCategoryButton();
+    handleResetAllAttractionsByCategory();
+    handleResetAttraction();
+  };
 
   const handleCoordinatesLink = () => {
     const tempInput = document.createElement("input");

@@ -32,7 +32,7 @@ function CardWeb({ id, category, name, description, img }) {
         <p className="text-sw-black text-xs font">{truncatedDescription}...</p>
       </div>
       <img
-        className="w-24 h-24 rounded-xl"
+        className="w-32 h-32 rounded-xl object-cover"
         src={img[0]}
         alt="img-card"
         loading="lazy"

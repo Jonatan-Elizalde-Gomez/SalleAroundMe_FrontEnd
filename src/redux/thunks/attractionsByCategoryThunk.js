@@ -23,6 +23,6 @@ export const getAllAttractionsByCategory = (id) => async (dispatch) => {
     });
 };
 
-export const resetAttractionsByCategory = () => async (dispatch) => {
+export const resetAttractionsByCategory = () => (dispatch) => {
   dispatch(resetState());
 };

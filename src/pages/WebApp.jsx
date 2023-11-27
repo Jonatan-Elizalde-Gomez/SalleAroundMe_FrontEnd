@@ -5,6 +5,7 @@ import SalleLogo from "../assets/salle_logo.svg";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useAppSelector } from "../app/store.js";
 import useMapCategories from "../hooks/useMapCategories";
+import AttractionMarker from "../components/basic/marker/AttractionMarker";
 
 function WebApp() {
   const { selectedCategoryButton } = useAppSelector(
@@ -13,6 +14,14 @@ function WebApp() {
 
   const { data, loading } = useAppSelector(
     (state) => state.categoriesMapReducer
+  );
+
+  const { data: attractionsByCategoryData } = useAppSelector(
+    (state) => state.attractionsByCategoryReducer
+  );
+
+  const { data: selectedAttraction } = useAppSelector(
+    (state) => state.attractionMapReducer
   );
 
   const [userLocation, setUserLocation] = useState(null);
@@ -69,7 +78,17 @@ function WebApp() {
         {/* ======= Map ======= */}
         <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
           <Map center={sallePosition} zoom={18}>
-            <Marker position={userLocation} />
+            <Marker
+              icon={{ url: require("../assets/felinoMarker.svg").default }}
+              position={userLocation}
+            />
+            {attractionsByCategoryData &&
+              attractionsByCategoryData.map((attraction) => (
+                <AttractionMarker key={attraction.id} attraction={attraction} />
+              ))}
+            {selectedAttraction && (
+              <AttractionMarker attraction={selectedAttraction} />
+            )}
           </Map>
         </APIProvider>
       </div>
