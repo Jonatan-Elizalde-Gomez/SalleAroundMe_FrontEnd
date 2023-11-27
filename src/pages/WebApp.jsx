@@ -6,6 +6,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useAppSelector } from "../app/store.js";
 import useMapCategories from "../hooks/useMapCategories";
 import AttractionMarker from "../components/basic/marker/AttractionMarker";
+import useMapNearestAttractions from "../hooks/useMapNearestAttractions";
 
 function WebApp() {
   const { selectedCategoryButton } = useAppSelector(
@@ -24,6 +25,10 @@ function WebApp() {
     (state) => state.attractionMapReducer
   );
 
+  const { data: nearestAttractions } = useAppSelector(
+    (state) => state.nearestAttractionsReducer
+  );
+
   const [userLocation, setUserLocation] = useState(null);
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(
@@ -31,6 +36,7 @@ function WebApp() {
   );
 
   const { handleGetCategories } = useMapCategories();
+  const{ handleGetNearestAttractions } = useMapNearestAttractions();
   const sallePosition = { lat: 21.152073200803656, lng: -101.71124458732997 };
 
   useEffect(() => {
@@ -89,6 +95,10 @@ function WebApp() {
             {selectedAttraction && (
               <AttractionMarker attraction={selectedAttraction} />
             )}
+            {nearestAttractions &&
+              nearestAttractions.map((attraction) => (
+                <AttractionMarker key={attraction.id} attraction={attraction} />
+              ))}
           </Map>
         </APIProvider>
       </div>

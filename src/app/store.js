@@ -6,6 +6,7 @@ import categoriesMapSlice from "../redux/slices/categoriesMapSlice";
 import attractionsByCategorySlice from "../redux/slices/attractionsByCategorySlice";
 import attractionsToShowSlice from "../redux/slices/attractionsToShowSlice";
 import categoryButtonsStateSlice from "../redux/slices/categoryButtonsStateSlice";
+import nearestAttractionsSlice from "../redux/slices/nearestAttractionsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     categoriesMapReducer: categoriesMapSlice,
     attractionsToShowReducer: attractionsToShowSlice,
     categoryButtonsReducer: categoryButtonsStateSlice,
+    nearestAttractionsReducer: nearestAttractionsSlice,
   },
 });
 
