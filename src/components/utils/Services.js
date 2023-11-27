@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import Swal from "sweetalert2";
 const baseUrl = "https://salle-around-me.onrender.com/";
 var token = "";
 if (localStorage.getItem("token")) {
@@ -408,121 +409,63 @@ export const updateAttractionService = async (dataJson, id) => {
 
 // Deletes
 
-export const deleteStyleService = async (id) => {
+const deleteEntityService = async (entityType, id) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
-  await axios
-    .delete(`${baseUrl}/style/${id}`, { headers: headers }) // Corrige la barra inclinada aquí
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
+  try {
+    const response = await axios.delete(`${baseUrl}${entityType}/${id}`, {
+      headers: headers,
     });
+
+    if (response.status === 200) {
+      Swal.fire({
+        icon: "success",
+        title: `Eliminación de ${entityType} exitosa`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: `Error al eliminar ${entityType}`,
+        text: "Por favor, intenta de nuevo",
+      });
+    }
+  } catch (e) {
+    Swal.fire({
+      icon: "error",
+      title: `Error al eliminar ${entityType}`,
+      text: `Error: ${e.message}`,
+    });
+  }
+};
+
+export const deleteStyleService = async (id) => {
+  await deleteEntityService("style", id);
 };
 
 export const deleteMaterialService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}material/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("material", id);
 };
 
 export const deleteTecniqueService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}tecnique/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("tecnique", id);
 };
 
 export const deleteCategoryService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}category/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("category", id);
 };
 
 export const deleteAuthorService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}author/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("author", id);
 };
 
 export const deleteUserService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}user/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("user", id);
 };
 
 export const deleteAttractionService = async (id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .delete(`${baseUrl}attraction/${id}`, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await deleteEntityService("attraction", id);
 };
