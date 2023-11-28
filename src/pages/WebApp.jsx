@@ -25,9 +25,8 @@ function WebApp() {
     (state) => state.attractionMapReducer
   );
 
-  const { data: nearestAttractions } = useAppSelector(
-    (state) => state.nearestAttractionsReducer
-  );
+  const { data: nearestAttractions, loading: nearestAttractionsLoading } =
+    useAppSelector((state) => state.nearestAttractionsReducer);
 
   const [userLocation, setUserLocation] = useState(null);
   const [categories, setCategories] = useState(null);
@@ -36,8 +35,16 @@ function WebApp() {
   );
 
   const { handleGetCategories } = useMapCategories();
-  const{ handleGetNearestAttractions } = useMapNearestAttractions();
+  const { handleGetNearestAttractions, handleReset } = useMapNearestAttractions();
   const sallePosition = { lat: 21.152073200803656, lng: -101.71124458732997 };
+
+  const handleGetCurrentUserLocation = () => {
+    console.log('Ejecutado xd')
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setUserLocation({ lat: latitude, lng: longitude });
+    });
+  };
 
   useEffect(() => {
     if (!data && !loading) {
@@ -46,15 +53,28 @@ function WebApp() {
   }, [handleGetCategories, data, loading]);
 
   useEffect(() => {
+    if (!nearestAttractions && !nearestAttractionsLoading && userLocation) {
+      handleGetNearestAttractions(userLocation.lat, userLocation.lng);
+    }
+  }, [
+    handleGetNearestAttractions,
+    nearestAttractions,
+    nearestAttractionsLoading,
+    userLocation,
+  ]);
+
+  useEffect(() => {
     setCategories(data);
   }, [data]);
 
   useEffect(() => {
     // Obtener la ubicación actual del navegador
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      setUserLocation({ lat: latitude, lng: longitude });
-    });
+    handleGetCurrentUserLocation();
+/*     const intervalId = setInterval(() => {
+      handleReset();
+      handleGetCurrentUserLocation();
+    }, 30000);
+    return () => clearInterval(intervalId); */
   }, []);
 
   return (
@@ -97,7 +117,11 @@ function WebApp() {
             )}
             {nearestAttractions &&
               nearestAttractions.map((attraction) => (
-                <AttractionMarker key={attraction.id} attraction={attraction} />
+                <AttractionMarker
+                  key={attraction.id}
+                  attraction={attraction}
+                  iconImg={true}
+                />
               ))}
           </Map>
         </APIProvider>

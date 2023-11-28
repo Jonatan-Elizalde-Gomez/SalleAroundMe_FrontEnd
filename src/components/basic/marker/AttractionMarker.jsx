@@ -1,8 +1,9 @@
 import { InfoWindow, Marker } from "@vis.gl/react-google-maps";
 import useMapAttraction from "../../../hooks/useMapAttraction";
+import NearMarker from "../../../assets/nearMarker.svg"
 import { useState } from "react";
 
-function AttractionMarker({ attraction }) {
+function AttractionMarker({ attraction, iconImg }) {
   const { handleGetAttractionById } = useMapAttraction();
   const [infoWindowContent, setInfoWindowContent] = useState(null);
 
@@ -16,6 +17,7 @@ function AttractionMarker({ attraction }) {
     <div>
       <Marker
         position={attractionLocation}
+        icon={iconImg && NearMarker}
         onClick={() => {
           setInfoWindowContent(
             <button

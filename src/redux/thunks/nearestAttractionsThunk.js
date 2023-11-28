@@ -6,10 +6,10 @@ import {
   resetState,
 } from "../slices/nearestAttractionsSlice";
 
-export const getNearestAttractions = (lat,lng) => async (dispatch) => {
+export const getNearestAttractions = (lat, lng) => async (dispatch) => {
   dispatch(getNearestAttractionsStart());
   await privateApi
-    .get('attraction/GetAllAttractions/',lat,'/',lng)
+    .get("attraction/GetTopAttracions/"+lat+"/"+lng)
     .then((response) => {
       if (response.data.length < 0) {
         dispatch(getNearestAttractionsError("Hubo un error"));
