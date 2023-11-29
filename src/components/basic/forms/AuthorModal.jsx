@@ -2,19 +2,35 @@ import React, { useState } from 'react';
 import iconX from "../../../assets/times2.png";
 import {registerAuthorService, updateAuthorService} from "../../utils/Services";
 
-function AuthorModal({ onClose, data }) {
+function AuthorModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? '');
   const [fatherLastname, setFatherLastname] = useState(data?.father_lastname ?? '');
   const [motherLastname, setMotherLastname] = useState(data?.mother_lastname ?? '');
-  const [birthday, setBirthday] = useState(data?.birthday ? new Date(data.birthday).toISOString().split('T')[0] : '');
-  const [death, setDeath] = useState(data?.death ? new Date(data.death).toISOString().split('T')[0] : '');
+  const [birthday, setBirthday] = useState(data?.birthday ? formatISODate(data.birthday) : '');
+  const [death, setDeath] = useState(data?.birthday ? formatISODate(data.birthday) : '');
 
-  console.log(data)
+  function formatISODate(dateString) {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
 
-  const createAuthorService = () => {
+  function validarCampos(objeto) {
+    var i = 0
+    for (const clave in objeto) {
+      i ++;
+      if ((objeto[clave] === null || objeto[clave] === '' || objeto[clave] === undefined) && i !== 5) {
+        return false; // Retorna falso si algún campo está vacío
+      }
+    }
+    return true; // Retorna verdadero si todos los campos están llenos
+  }
+  
+  const createAuthorService = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
-    const formattedBirthday = new Date(birthday).toUTCString();
-    const formattedDeath = death ? new Date(death).toUTCString() : '';
+    const formattedBirthday = formatISODate(birthday);
+    const formattedDeath = death ? formatISODate(death) : '';
   
     const dataJson = {
       "name": name,
@@ -24,11 +40,25 @@ function AuthorModal({ onClose, data }) {
       "death": formattedDeath
     }
     if (data) {
-      // Aquí puedes realizar lógica específica para la edición
-      updateAuthorService(dataJson, data.id);
+      if(validarCampos(dataJson)){
+        // Aquí puedes realizar lógica específica para la edición
+        onClose()
+        await updateAuthorService(dataJson, data.id);
+        fetchData()
+      }
+      else{
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     } else {
-      // Lógica para la creación
-      registerAuthorService( dataJson);
+      if(validarCampos(dataJson)){
+        // Lógica para la creación
+        onClose()
+        await registerAuthorService( dataJson);
+        fetchData()
+      }
+      else{
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     }
   };
 

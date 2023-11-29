@@ -14,9 +14,9 @@ import {
   getAllStyles,
 } from "../../utils/Services";
 
-function AttractiveModal({ onClose, data }) {
+function AttractiveModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? "");
-  const [author, setAuthor] = useState(data?.author.id ?? "");
+  const [author, setAuthor] = useState(data?.author?.id ?? "");
   const [latitude, setLatitude] = useState(data?.lat ?? "");
   const [longitude, setLongitude] = useState(data?.lng ?? "");
   const [description, setDescription] = useState(data?.description ?? "");
@@ -39,7 +39,6 @@ function AttractiveModal({ onClose, data }) {
 
   const [archivo, setArchivo] = useState(null);
   const [archivoValid, setArchivoValid] = useState(true);
-
   useEffect(() => {
     getAllAuthors(setAuthors);
     getAllTecniques(setTechniques);
@@ -54,12 +53,8 @@ function AttractiveModal({ onClose, data }) {
     if (data && data.tecnicas) {
       setSelectedTechniques(data.tecnicas.map((technique) => technique.id));
     }
-  }, []);
 
-  useEffect(() => {
-    console.log("Materiales: ",selectedMaterials);
-    console.log("Tecnicas: ",selectedTechniques);
-  }, [selectedMaterials, selectedTechniques]);
+  }, []);
 
   const handleCreateRecord = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
@@ -70,7 +65,8 @@ function AttractiveModal({ onClose, data }) {
       lat: parseFloat(latitude),
       lng: parseFloat(longitude),
       description: description,
-      img: images.map((image) => ({ url: image })),
+      //img: images.map((image) => ({ url: image })),
+      img: {url: "https://salle-images-bucket.s3.amazonaws.com/jardin_de_la_inclusion_1.webp"},
       size: Number(size),
       id_author: Number(author),
       id_style: Number(style),
@@ -80,7 +76,6 @@ function AttractiveModal({ onClose, data }) {
       material: selectedMaterials.map((materialId) => ({ id: materialId })),
       tecnica: selectedTechniques.map((techniqueId) => ({ id: techniqueId })),
     };
-    console.log(dataJson);
     if (
       description === "" ||
       name === "" ||
@@ -94,17 +89,18 @@ function AttractiveModal({ onClose, data }) {
       category === "" ||
       selectedTechniques.length === 0
     ) {
-      console.log("No se puede crear un registro con campos vacíos");
+      window.alert("No se puede crear un registro con campos vacíos");
     } else {
       if (data) {
         // Aquí puedes realizar lógica específica para la edición
-        console.log(dataJson);
+        onClose()
         await updateAttractionService(dataJson, data.id);
+        fetchData()
       } else {
         // Lógica para la creación
-        console.log(dataJson);
-        const token = localStorage.getItem("token").replace(/['"]+/g, "");
-        await createAttractionService(dataJson, token);
+        onClose()
+        await createAttractionService(dataJson);
+        fetchData()
       }
     }
   };

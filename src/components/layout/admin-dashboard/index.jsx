@@ -15,7 +15,10 @@ import StyleModal from "../../../components/basic/forms/StyleModal";
 
 import { useEffect } from "react";
 import { getAllCategories } from "../../utils/Services";
-const PageLayout = ({ children, handleSelect }) => {
+const PageLayout = ({ children, handleSelect, fetchData }) => {
+  const handleFetchData = () =>{
+    fetchData()
+  }
   const [selectedItem, setSelectedItem] = useState("Usuarios");
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalAttractive, setModalAttractiveVisible] = useState(false);
@@ -118,14 +121,14 @@ const PageLayout = ({ children, handleSelect }) => {
   return (
     <>
       {modalAttractive && (
-        <AttractiveModal onClose={handleCerrarModalAttractive} />
+        <AttractiveModal onClose={handleCerrarModalAttractive} fetchData={handleFetchData} />
       )}
-      {modalCategory && <CategoryModal onClose={handleCerrarModalCategory} />}
-      {modalUser && <UserModal onClose={handleCerrarModalUser} />}
-      {modalAuthor && <AuthorModal onClose={handleCerrarModalAuthor} />}
-      {modalTecnique && <TecniqueModal onClose={handleCerrarModalTecnique}/>}
-      {modalMaterial && <MaterialModal onClose={handleCerrarModalMaterial}/>}
-      {modalStyle && <StyleModal onClose={handleCerrarModalStyle}/>}
+      {modalCategory && <CategoryModal onClose={handleCerrarModalCategory}  fetchData={handleFetchData}/>}
+      {modalUser && <UserModal onClose={handleCerrarModalUser}  fetchData={handleFetchData}/>}
+      {modalAuthor && <AuthorModal onClose={handleCerrarModalAuthor}  fetchData={handleFetchData}/>}
+      {modalTecnique && <TecniqueModal onClose={handleCerrarModalTecnique} fetchData={handleFetchData}/>}
+      {modalMaterial && <MaterialModal onClose={handleCerrarModalMaterial} fetchData={handleFetchData}/>}
+      {modalStyle && <StyleModal onClose={handleCerrarModalStyle} fetchData={handleFetchData}/>}
       <div className="fixed bottom-6 right-6">
         <button
           onClick={handleOpenAddModal}
@@ -178,7 +181,7 @@ const PageLayout = ({ children, handleSelect }) => {
             </div>
             <div className="mt-10">
               <h3 className="text-sw-gray">Atracciones</h3>
-              <div style={{ maxHeight: "340px", overflowY: "auto", paddingRight:"10px" }}>
+              <div style={{ maxHeight: "250px", overflowY: "auto", paddingRight:"10px" }}>
                 {categories.map((item) => (
                   <p
                     key={item.id}
@@ -230,8 +233,8 @@ const PageLayout = ({ children, handleSelect }) => {
                 />
               </button>
             </div>
-            <div className="hidden lg:flex justify-between text-sm pt-4 border-t-2 border-sw-main-darker px-5">
-              <button className="bg-white rounded-lg p-1 px-3 flex items-center border-2 border-sw-main-darker">
+            <div className="hidden lg:flex justify-between text-sm pt-4 border-t-2 border-sw-main-darker px-5 lg:justify-end">
+              {/*<button className="bg-white rounded-lg p-1 px-3 flex items-center border-2 border-sw-main-darker">
                 <span className="mr-2">
                   <img
                     src={personasSVG}
@@ -240,8 +243,8 @@ const PageLayout = ({ children, handleSelect }) => {
                     height="15"
                   />
                 </span>
-                <span className="text-sw-gray">Filtrar por autor</span>
-              </button>
+                 <span className="text-sw-gray">Filtrar por autor</span>
+              </button>*/}
               <button
                 onClick={handleOpenAddModal}
                 className="bg-sw-blue rounded-lg p-1 px-3 flex items-center"

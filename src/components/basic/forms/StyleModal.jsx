@@ -3,20 +3,43 @@ import iconX from "../../../assets/times2.png";
 import { useNavigate } from "react-router-dom";
 import { registerStyleService, updateStyleService } from "../../utils/Services";
 
-function StyleModal({ onClose, data }) {
+function StyleModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? "");
 
-  const handleRecord = () => {
+  function validarCampos(objeto) {
+    for (const clave in objeto) {
+      if (objeto[clave] === null || objeto[clave] === '' || objeto[clave] === undefined) {
+        return false; // Retorna falso si algún campo está vacío
+      }
+    }
+    return true; // Retorna verdadero si todos los campos están llenos
+  }
+
+  const handleRecord = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
     const dataJson = {
       name: name,
     };
     if (data) {
+      if (validarCampos(dataJson)) {
       // Aquí puedes realizar lógica específica para la edición
-      updateStyleService(dataJson, data.id);
+      onClose()
+      await updateStyleService(dataJson, data.id);
+      fetchData()
+      }
+      else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     } else {
+      if (validarCampos(dataJson)) {
       // Lógica para la creación
-      registerStyleService(dataJson);
+      onClose()
+      await registerStyleService(dataJson);
+      fetchData()
+      }
+      else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     }
   };
 

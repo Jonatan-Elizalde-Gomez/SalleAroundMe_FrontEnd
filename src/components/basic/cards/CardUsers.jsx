@@ -1,7 +1,8 @@
 import React from "react";
 import CardButtons from "../buttons/ButtonCard";
 
-export default function CardUsers({ data, selectedCard }) {
+export default function CardUsers({ data, selectedCard, fetchData }) {
+  const handlefetchData = () =>{fetchData()}
   return (
     <div className="flex rounded-xl border border-zinc-200 bg-white px-7 py-5 mb-4">
       <div className="grow">
@@ -12,7 +13,7 @@ export default function CardUsers({ data, selectedCard }) {
           </div>
         </div>
         <div className="flex justify-between">
-          <CardButtons data={data} selectedCard={selectedCard} />
+          <CardButtons data={data} selectedCard={selectedCard} fetchData={handlefetchData} />
         </div>
       </div>
     </div>

@@ -11,7 +11,8 @@ import StyleModal from "../../../components/basic/forms/StyleModal";
 import DeleteModal from "../modal/deleteModal";
 import { deleteAttractionService, deleteAuthorService, deleteCategoryService, deleteMaterialService, deleteStyleService, deleteTecniqueService, deleteUserService } from "../../utils/Services";
 
-export default function CardButtons({ data, selectedCard }) {
+export default function CardButtons({ data, selectedCard, fetchData }) {
+  const handleFetchData = () => {fetchData()}
   const [modalAttractive, setModalAttractiveVisible] = useState(false);
   const [modalCategory, setModalCategoryVisible] = useState(false);
   const [modalUser, setModalUserVisible] = useState(false);
@@ -26,36 +27,42 @@ export default function CardButtons({ data, selectedCard }) {
     if (selectedCard === "Categorias") {
       if (data) {
         deleteCategoryService(data.id);
+        handleFetchData()
       }
     } else if (selectedCard === "Usuarios") {
       if (data) {
-        deleteUserService(data.id);
+        deleteUserService(data.user_id);
+        handleFetchData()
       }
     } else if (selectedCard === "Autores") {
       if (data) {
         deleteAuthorService(data.id);
+        handleFetchData()
       }
     } else if (selectedCard === "Tecnicas") {
       if (data) {
         deleteTecniqueService(data.id);
+        handleFetchData()
       }
     } else if (selectedCard === "Materiales") {
       if (data) {
         deleteMaterialService(data.id);
+        handleFetchData()
       }
     } else if (selectedCard === "Estilos") {
       if (data) {
         deleteStyleService(data.id);
+        handleFetchData()
       }
     } else {
       if (data) {
         deleteAttractionService(data.id);
+        handleFetchData()
       }
     }
   }
 
   const handleOpenAddModal = () => {
-    console.log(selectedCard, data);
     if (selectedCard === "Categorias") {
       setModalCategoryVisible(true);
     } else if (selectedCard === "Usuarios") {
@@ -115,29 +122,30 @@ export default function CardButtons({ data, selectedCard }) {
         <p className="pl-2">Editar</p>
       </div>
       {modalAttractive && (
-        <AttractiveModal onClose={handleCerrarModalAttractive} data={data} />
+        <AttractiveModal onClose={handleCerrarModalAttractive} data={data} fetchData={handleFetchData}/>
       )}
       {modalCategory && (
-        <CategoryModal onClose={handleCerrarModalCategory}  data={data}/> 
+        <CategoryModal onClose={handleCerrarModalCategory}  data={data} fetchData={handleFetchData}/> 
       )}
-      {modalUser && <UserModal onClose={handleCerrarModalUser} data={data} />}
+      {modalUser && <UserModal onClose={handleCerrarModalUser} data={data} fetchData={handleFetchData}/>}
       {modalAuthor && (
-        <AuthorModal onClose={handleCerrarModalAuthor} data={data} />
+        <AuthorModal onClose={handleCerrarModalAuthor} data={data} fetchData={handleFetchData}/>
       )}
       {modalTecnique && (
-        <TecniqueModal onClose={handleCerrarModalTecnique} data={data} />
+        <TecniqueModal onClose={handleCerrarModalTecnique} data={data} fetchData={handleFetchData}/>
       )}
       {modalMaterial && (
-        <MaterialModal onClose={handleCerrarModalMaterial} data={data} />
+        <MaterialModal onClose={handleCerrarModalMaterial} data={data} fetchData={handleFetchData}/>
       )}
       {modalStyle && (
-        <StyleModal onClose={handleCerrarModalStyle} data={data} />
+        <StyleModal onClose={handleCerrarModalStyle} data={data} fetchData={handleFetchData}/>
       )}
       {modalDelete && (
         <DeleteModal
           isOpen={modalDelete}
           onClose={() => setModalDeleteVisible(false)}
           onDelete={handleDelete}
+          fetchData={handleFetchData}
         />
       )}
     </div>

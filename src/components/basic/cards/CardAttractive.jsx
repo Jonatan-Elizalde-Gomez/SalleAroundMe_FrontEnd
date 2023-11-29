@@ -1,7 +1,8 @@
 import React from "react";
 import CardButtons from "../buttons/ButtonCard";
 
-export default function CardAttractive({ data, selectedCard }) {
+export default function CardAttractive({ data, selectedCard, fetchData }) {
+  const handlefetchData = () =>{fetchData()}
   return (
     <div className="flex rounded-xl border border-zinc-200 bg-white px-7 py-5 mb-4">
       <div className="grow">
@@ -32,7 +33,7 @@ export default function CardAttractive({ data, selectedCard }) {
               <p className="text-neutral-500">120 m2</p>
             </div>
           </div>
-          <CardButtons data={data} selectedCard={selectedCard}/>
+          <CardButtons data={data} selectedCard={selectedCard} fetchData={handlefetchData}/>
         </div>
       </div>
     </div>

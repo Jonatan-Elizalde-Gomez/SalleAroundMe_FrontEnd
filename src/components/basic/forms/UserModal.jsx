@@ -4,7 +4,7 @@ import eyeOff from "../../../assets/eye-off.png";
 import { useNavigate } from "react-router-dom"; 
 import { registerUserService,updateUserService } from "../../utils/Services";
 
-function UserModal({ onClose, data }) {
+function UserModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? '');
   const [email, setEmail] = useState(data?.email ?? '');
   const [password, setPassword] = useState('');
@@ -57,15 +57,19 @@ function UserModal({ onClose, data }) {
     }
     try {
       if(isValidPassword === false || isValidConfirmPassword === false || isValid === false){
-        console.log("Favor de llenar los campos correctamente");
+        window.alert("Favor de llenar los campos correctamente");
       }
       else{
         if (data) {
           // Aquí puedes realizar lógica específica para la edición
+          onClose()
           await updateUserService(dataJson, data.user_id);
+          fetchData()
         } else {
           // Lógica para la creación
+          onClose()
           await registerUserService( dataJson);
+          fetchData()
         }
       }
     } catch (error) {

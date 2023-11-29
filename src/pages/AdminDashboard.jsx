@@ -36,6 +36,7 @@ function AdminDashboard() {
   const [tecniques, setTecniques] = useState(null);
   const [isStyles, setIsStyles] = useState(false);
   const [styles, setStyles] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   function clear() {
     setIsAtractive(false);
@@ -53,81 +54,69 @@ function AdminDashboard() {
     setIsStyles(false)
     setStyles(null)
   }
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+    if (Array.isArray(selectedCard)) {
+      const idCategory = selectedCard[0].id; // idCategory será 1
+
+        clear();
+        getAllAtractions(setAtraction, idCategory);
+        setIsAtractive(true);
+    }
+    if (selectedCard === "Usuarios") {
+        clear();
+        getAllUsers(setUsers);
+        setIsUser(true);
+      }
+    
+
+    if (selectedCard === "Categorias") {
+        clear();
+        getAllCategories(setCategories);
+        setIsCategories(true);
+      }
+    
+
+    if (selectedCard === "Autores") {
+        clear();
+        getAllAuthors(setAuthors);
+        setIsAuthor(true);
+      }
+    
+
+    
+    if (selectedCard === "Tecnicas") {
+        clear();
+        getAllTecniques(setTecniques);
+        setIsTecnique(true);
+      }
+    
+
+    if (selectedCard === "Materiales") {
+        clear();
+        getAllMaterials(setMaterials);
+        setIsMaterial(true);
+      }
+    
+
+    if (selectedCard === "Estilos") {
+        clear();
+        getAllStyles(setStyles);
+        setIsStyles(true);
+      }
+    }
+  catch (error){
+    console.error("error al obtener los datos")
+  }
+  finally {
+    setLoading(false); // Desactivar vista de carga
+  }
+  }
+  
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (Array.isArray(selectedCard)) {
-        const idCategory = selectedCard[0].id; // idCategory será 1
-
-        try {
-          clear();
-          getAllAtractions(setAtraction, idCategory);
-          setIsAtractive(true);
-        } catch (error) {
-          console.error("Error al obtener las atracciones", error);
-        }
-      }
-      if (selectedCard == "Usuarios") {
-        try {
-          clear();
-          getAllUsers(setUsers);
-          setIsUser(true);
-        } catch (error) {
-          console.error("Error al obtener las atracciones", error);
-        }
-      }
-
-      if (selectedCard == "Categorias") {
-        try {
-          clear();
-          getAllCategories(setCategories);
-          setIsCategories(true);
-        } catch (error) {
-          console.error("Error al obtener las atracciones", error);
-        }
-      }
-
-      if (selectedCard == "Autores") {
-        try {
-          clear();
-          getAllAuthors(setAuthors);
-          setIsAuthor(true);
-        } catch (error) {
-          console.error("Error al obtener las atracciones", error);
-        }
-      }
-
-      
-      if (selectedCard == "Tecnicas") {
-        try {
-          clear();
-          getAllTecniques(setTecniques);
-          setIsTecnique(true);
-        } catch (error) {
-          console.error("Error al obtener las tecnicas", error);
-        }
-      }
-
-      if (selectedCard == "Materiales") {
-        try {
-          clear();
-          getAllMaterials(setMaterials);
-          setIsMaterial(true);
-        } catch (error) {
-          console.error("Error al obtener los materiales", error);
-        }
-      }
-
-      if (selectedCard == "Estilos") {
-        try {
-          clear();
-          getAllStyles(setStyles);
-          setIsStyles(true);
-        } catch (error) {
-          console.error("Error al obtener los estilos", error);
-        }
-      }
-    };
-
     fetchData();
   }, [selectedCard]);
 
@@ -136,41 +125,47 @@ function AdminDashboard() {
   };
 
   return (
-    <PageLayout handleSelect={handleSelect}>
+    <>
+        {loading ? (
+      <p>Cargando...</p> // Vista de carga
+    ) : (
+    <PageLayout handleSelect={handleSelect} fetchData={fetchData}>
     {isAtractive &&
       atraction &&
       atraction.map((atrac, index) => (
-        <CardAttractive key={index} data={atrac} selectedCard={selectedCard}/>
+        <CardAttractive key={index} data={atrac} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
     {isUser &&
       users &&
-      users.map((user, index) => <CardUsers key={index} data={user} selectedCard={selectedCard}/>)}
+      users.map((user, index) => <CardUsers key={index} data={user} selectedCard={selectedCard} fetchData={fetchData}/>)}
     {isCategories &&
       categories &&
       categories.map((category, index) => (
-        <CardCategory key={index} data={category} selectedCard={selectedCard}/>
+        <CardCategory key={index} data={category} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
     {isAuthor &&
       authors &&
       authors.map((author, index) => (
-        <CardAuthor key={index} data={author} selectedCard={selectedCard}/>
+        <CardAuthor key={index} data={author} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
     {isTecnique &&
       tecniques &&
       tecniques.map((tecnique, index) => (
-        <CardTecnique key={index} data={tecnique} selectedCard={selectedCard}/>
+        <CardTecnique key={index} data={tecnique} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
     {isMaterial &&
       materials &&
       materials.map((material, index) => (
-        <CardMaterial key={index} data={material} selectedCard={selectedCard}/>
+        <CardMaterial key={index} data={material} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
     {isStyles &&
       styles &&
       styles.map((style, index) => (
-        <CardStyle key={index} data={style} selectedCard={selectedCard}/>
+        <CardStyle key={index} data={style} selectedCard={selectedCard} fetchData={fetchData}/>
       ))}
   </PageLayout>
+  )}
+  </>
   );
 }
 

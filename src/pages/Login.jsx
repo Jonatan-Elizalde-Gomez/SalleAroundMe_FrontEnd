@@ -19,7 +19,7 @@ function Login() {
   const handleLogin = async () => {
     try {
       if (email === "" || password === "") {
-        console.log("No se puede iniciar sesión con campos vacíos");
+        window.alert("No se puede iniciar sesión con campos vacíos");
         return;
       }
       const loginData = await loginService({
@@ -38,10 +38,10 @@ function Login() {
         // La solicitud de inicio de sesión fue exitosa, ahora puedes navegar a la nueva ruta
         await navigate("/admin");
       } else {
-        console.log("No se pudo iniciar sesión con los datos proporcionados.");
+        window.alert("No se pudo iniciar sesión con los datos proporcionados.");
       }
     } catch (error) {
-      console.error("Error al iniciar sesión:", error.message);
+      window.alert("Error al iniciar sesión");
     }
   };
   

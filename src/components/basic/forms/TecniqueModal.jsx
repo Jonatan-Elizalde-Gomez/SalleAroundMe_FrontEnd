@@ -6,20 +6,43 @@ import {
   updateTecniqueService,
 } from "../../utils/Services";
 
-function TecniqueModal({ onClose, data }) {
+function TecniqueModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? "");
 
-  const handleRecord = () => {
+  function validarCampos(objeto) {
+    for (const clave in objeto) {
+      if (objeto[clave] === null || objeto[clave] === '' || objeto[clave] === undefined) {
+        return false; // Retorna falso si algún campo está vacío
+      }
+    }
+    return true; // Retorna verdadero si todos los campos están llenos
+  }
+
+  const handleRecord = async () => {
     // Aquí puedes hacer lo que necesites con la información del formulario
     const dataJson = {
       name: name,
     };
     if (data) {
+      if (validarCampos(dataJson)) {
       // Aquí puedes realizar lógica específica para la edición
-      updateTecniqueService(dataJson, data.id);
+      onClose()
+      await updateTecniqueService(dataJson, data.id);
+      fetchData()
+      }
+      else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     } else {
+      if (validarCampos(dataJson)) {
       // Lógica para la creación
-      registerTecniqueService(dataJson);
+      onClose()
+      await registerTecniqueService(dataJson);
+      fetchData()
+      }
+      else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     }
   };
 

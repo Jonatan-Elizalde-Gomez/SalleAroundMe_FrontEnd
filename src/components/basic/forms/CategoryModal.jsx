@@ -3,22 +3,43 @@ import iconX from "../../../assets/times2.png";
 import { useNavigate } from "react-router-dom"; 
 import {registerCategoryService, updateCategoryService} from "../../utils/Services";
 
-function CategoryModal({ onClose, data }) {
+function CategoryModal({ onClose, data, fetchData }) {
   const [name, setName] = useState(data?.name ?? '');
   const [description, setDescription] = useState(data?.description ?? '');
 
-  const handleCreateRecord = () => {
-    // Aquí puedes hacer lo que necesites con la información del formulario
-    const dataJson = {	
-      "name": name,
-      "description": description,
+  function validarCampos(objeto) {
+    for (const clave in objeto) {
+      if (objeto[clave] === null || objeto[clave] === '' || objeto[clave] === undefined) {
+        return false; // Retorna falso si algún campo está vacío
+      }
     }
+    return true; // Retorna verdadero si todos los campos están llenos
+  }
+
+  const handleCreateRecord = async () => {
+    // Aquí puedes hacer lo que necesites con la información del formulario
+    const dataJson = {
+      name: name,
+      description: description,
+    };
     if (data) {
-      // Aquí puedes realizar lógica específica para la edición
-      updateCategoryService(dataJson, data.id);
+      if (validarCampos(dataJson)) {
+        // Aquí puedes realizar lógica específica para la edición
+        onClose();
+        await updateCategoryService(dataJson, data.id);
+        fetchData();
+      } else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     } else {
-      // Lógica para la creación
-      registerCategoryService( dataJson);
+      if (validarCampos(dataJson)) {
+        // Lógica para la creación
+        onClose();
+        await registerCategoryService(dataJson);
+        fetchData();
+      } else {
+        window.alert("No se puede crear un registro con campos vacíos");
+      }
     }
   };
 

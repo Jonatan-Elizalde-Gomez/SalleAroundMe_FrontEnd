@@ -1,19 +1,17 @@
 import { useState } from "react";
 
-function DeleteModal({ isOpen, onClose, onDelete }) {
+function DeleteModal({ isOpen, onClose, onDelete, fetchData }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
     try {
       setIsDeleting(true);
-      console.log("Iniciando eliminación...");
       await onDelete();
-      console.log("Eliminación exitosa.");
     } catch (error) {
-      console.error("Error al eliminar:", error);
     } finally {
       setIsDeleting(false);
       onClose();
+      fetchData()
     }
   };
 
@@ -21,7 +19,7 @@ function DeleteModal({ isOpen, onClose, onDelete }) {
     <div
       className={`${
         isOpen ? "flex" : "hidden"
-      } fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 items-center justify-center`}
+      } fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 items-center justify-center z-[99]`}
     >
       <div className="bg-white p-8 rounded shadow-md">
         <p className="mb-4">

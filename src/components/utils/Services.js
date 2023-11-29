@@ -27,139 +27,69 @@ export const loginService = async (credentials) => {
   }
 };
 
-export const createAttractionService = async (dataJson, token) => {
+
+const addEntityService = async (dataJson, entityType) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
+
   try {
-    const response = await axios.post(`${baseUrl}attraction/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
+    const response = await axios.post(`${baseUrl}${entityType}/`, dataJson, { headers: headers })
+
+
+    if (response.status === 200) {
+      Swal.fire({
+        icon: "success",
+        title: `Añadir de ${entityType} exitosa`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
+      Swal.fire({
+        icon: "error",
+        title: `Error al añadir ${entityType}`,
+        text: "Por favor, intenta de nuevo",
+      });
     }
+  } catch (e) {
+    Swal.fire({
+      icon: "error",
+      title: `Error al añadir ${entityType}`,
+      text: `Error: ${e.message}`,
+    });
   }
 };
 
-export const registerUserService = async (dataJson) => {
-  console.log(token);
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}user/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
-};
 
-export const registerAuthorService = async (dataJson) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}author/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
-};
-
-export const registerCategoryService = async (dataJson) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}category/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
+export const registerStyleService = async (dataJson) => {
+  await addEntityService(dataJson, "style");
 };
 
 export const registerMaterialService = async (dataJson) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}material/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
+  await addEntityService(dataJson, "material");
 };
 
 export const registerTecniqueService = async (dataJson) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}tecnique/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
+  await addEntityService(dataJson, "tecnique");
 };
 
-export const registerStyleService = async (dataJson) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  try {
-    const response = await axios.post(`${baseUrl}style/`, dataJson, {
-      headers: headers,
-    });
-  } catch (error) {
-    if (error.request) {
-      // La solicitud fue realizada pero no se recibió respuesta
-      console.error("No se recibió respuesta del servidor");
-    } else {
-      // Ocurrió un error al configurar la solicitud
-      console.error("Error al configurar la solicitud:", error.message);
-    }
-  }
+export const registerCategoryService = async (dataJson) => {
+  await addEntityService(dataJson, "category");
 };
+
+export const registerAuthorService = async (dataJson) => {
+  await addEntityService(dataJson, "author");
+};
+
+export const registerUserService = async (dataJson) => {
+  await addEntityService(dataJson, "user");
+};
+
+export const createAttractionService = async (dataJson) => {
+  await addEntityService(dataJson, "attraction");
+};
+
+
 
 export function getAllAtractions(setAtraction, id) {
   // Asumiendo que quieres eliminar comillas
@@ -167,7 +97,7 @@ export function getAllAtractions(setAtraction, id) {
     Authorization: `Bearer ${token}`,
   };
 
-  const cadena = `attraction/GetAttractionsByCategory/${id}`;
+  const cadena = `attraction/GetAttractionsByCategoryFull/${id}`;
   //const cadena = "attraction/"
 
   return axios
@@ -288,124 +218,68 @@ export function getAllStyles(setStyles) {
 
 // All Puts ********************************
 
-export const updateStyleService = async (dataJson, id) => {
+
+const updateEntityService = async (dataJson, entityType, id) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
-  await axios
-    .put(`${baseUrl}style/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
+  try {
+    const response = await axios.put(`${baseUrl}${entityType}/${id}`, dataJson, { headers: headers })
+
+
+    if (response.status === 200) {
+      Swal.fire({
+        icon: "success",
+        title: `Actualización de ${entityType} exitosa`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: `Error al actualizar ${entityType}`,
+        text: "Por favor, intenta de nuevo",
+      });
+    }
+  } catch (e) {
+    Swal.fire({
+      icon: "error",
+      title: `Error al actualizar ${entityType}`,
+      text: `Error: ${e.message}`,
     });
+  }
+};
+
+export const updateStyleService = async (dataJson, id) => {
+  await updateEntityService(dataJson, "style", id);
 };
 
 export const updateMaterialService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}material/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "material", id);
 };
 
 export const updateTecniqueService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}tecnique/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "tecnique", id);
 };
 
 export const updateCategoryService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}category/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "category", id);
 };
 
 export const updateAuthorService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}author/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "author", id);
 };
 
 export const updateUserService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}user/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "user", id);
 };
 
 export const updateAttractionService = async (dataJson, id) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  await axios
-    .put(`${baseUrl}attraction/${id}`, dataJson, { headers: headers })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  await updateEntityService(dataJson, "attraction", id);
 };
+
+
 
 // Deletes
 
