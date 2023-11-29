@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LaSalle from "../assets/salleLogoCompleto.png";
 import CollaboratorDropdown from "../components/basic/dropdown/CollaboratorDropdown";
-import { usersData } from "../mocks/usersData";
+import { collaborators } from "../mocks/Collaborators";
 import UserImage from "../assets/poncho.jpg";
 
 function Collaborators() {
@@ -22,15 +22,15 @@ function Collaborators() {
   }, [showDiv]);
 
   return (
-    <div className="bg-[#f5faff] relative">
+    <div className="relative">
       <div className="w-full py-8 flex justify-center items-center border">
         <img src={LaSalle} alt="La-Salle-Logo-PNG" />
       </div>
       <div className="py-4">
-        {usersData.map((data) => (
+        {collaborators.map((collaborator) => (
           <CollaboratorDropdown
-            title={data.area}
-            collaborators={data.collaborators}
+            title={collaborator.area}
+            collaborators={collaborator.collaborators}
           />
         ))}
       </div>

@@ -16,3 +16,7 @@
   max-height: auto; /* Ajusta el valor máximo de altura según tus necesidades */
   transition: max-height 0.3s ease-in-out; /* Controla la duración y el efecto de la animación */
 }
+
+.gm-style-mtc {
+  display: none;
+}

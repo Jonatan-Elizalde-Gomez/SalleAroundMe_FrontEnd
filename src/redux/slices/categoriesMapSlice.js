@@ -6,7 +6,7 @@ const initialState = {
   error: null,
 };
 
-const categoriesSlice = createSlice({
+const categoriesMapSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
@@ -18,7 +18,7 @@ const categoriesSlice = createSlice({
       state.error = false;
       state.data = action.payload;
     },
-    getCategoriesError(state, action) {
+    getCategoriesError(state) {
       state.loading = false;
       state.error = true;
       state.data = [];
@@ -26,7 +26,10 @@ const categoriesSlice = createSlice({
   },
 });
 
-export const { getCategoriesStart, getCategoriesSuccess, getCategoriesError } =
-  categoriesSlice.actions;
+export const {
+  getCategoriesStart,
+  getCategoriesSuccess,
+  getCategoriesError,
+} = categoriesMapSlice.actions;
 
-export default categoriesSlice.reducer;
+export default categoriesMapSlice.reducer;

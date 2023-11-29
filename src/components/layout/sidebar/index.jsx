@@ -2,42 +2,69 @@ import SalleLogo from "../../../assets/salle_logo.svg";
 import RemoveIcon from "../../../assets/remove_icon.svg";
 import Dropdown from "../../basic/dropdown/Dropdown";
 import ArrowIcon from "../../../assets/return-icon.svg";
-import { AllAttractions } from "../../../mocks/AllAttractions";
-import AttractionDetail from "./AttractionDetail";
-import { AttractionDetailMock } from "../../../mocks/AttractionDetail";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../../../app/store";
+import LoadingGif from "../../../assets/loading.gif";
+import useMapAllAttractions from "../../../hooks/useMapAllAttractions";
+import { handleSearchChange } from "../../../utils/search";
+import AttractionDetail from "../sidebar/AttractionDetail";
+import AttractionsByCategory from "./AttractionsByCategory";
+import useMapAttraction from "../../../hooks/useMapAttraction";
+import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
+import useMapAttractionsByCategory from "../../../hooks/useMapAttractionsByCategory";
 
 function Sidebar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [openSearchItems, setOpenSearchItems] = useState(false);
   const [positionPanel, setPositionPanel] = useState(false);
+  const [attractions, setAttractions] = useState(null);
 
-  const navigate = useNavigate();
+  const { handleGetAllAttractions } = useMapAllAttractions();
+  const { handleGetAttractionById } = useMapAttraction();
+  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
 
-  const handleSearchChange = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    setOpenSearchItems(true);
-    // Filtrar las atracciones que coinciden con el valor de búsqueda
-    const filteredResults = AllAttractions.reduce((acc, category) => {
-      const filteredAttractions = category.attractions.filter((attraction) =>
-        attraction.name.toLowerCase().includes(query.toLowerCase())
-      );
-      if (filteredAttractions.length > 0) {
-        acc.push(filteredAttractions);
-      }
-      return acc;
-    }, []);
+  const { data: attractionsData, loading: attractionsLoading } = useAppSelector(
+    (state) => state.attractionsMapReducer
+  );
 
-    setSearchResults(filteredResults);
-    console.log(searchResults);
-  };
+  const {
+    data: attractionsByCategoryData,
+    loading: attractionsByCategoryLoading,
+  } = useAppSelector((state) => state.attractionsByCategoryReducer);
+
+  const { data: attractionDetailData, loading: attractionDetailLoading } =
+    useAppSelector((state) => state.attractionMapReducer);
+
+  const { showAll, showSingle, showByCategory } = useAppSelector(
+    (state) => state.attractionsToShowReducer
+  );
 
   const handleCloseSearchItems = () => {
     setOpenSearchItems(false);
+    setSearchQuery("");
   };
+
+  const handleDetailAttraction = (id) => {
+    handleResetAllAttractionsByCategory();
+    handleDectivateCategoryButton();
+    handleCloseSearchItems();
+    handleGetAttractionById(id);
+  };
+
+  useEffect(() => {
+    if (!attractionsData && !attractionsLoading) {
+      handleGetAllAttractions();
+    }
+  }, [handleGetAllAttractions, attractionsData, attractionsLoading]);
+
+  useEffect(() => {
+    if (attractionsData) {
+      setAttractions(attractionsData);
+    }
+  }, [attractionsData]);
+
   return (
     <div
       className={`w-full absolute transition-all duration-300  ${
@@ -56,7 +83,15 @@ function Sidebar() {
             type="text"
             placeholder="Buscar atracción por nombre..."
             value={searchQuery}
-            onChange={handleSearchChange}
+            onChange={(event) =>
+              handleSearchChange(
+                event,
+                setSearchQuery,
+                setOpenSearchItems,
+                attractionsData,
+                setSearchResults
+              )
+            }
           />
           <button
             onClick={handleCloseSearchItems}
@@ -71,6 +106,7 @@ function Sidebar() {
               searchResults.map((category) =>
                 category.map((attraction) => (
                   <button
+                    onClick={() => handleDetailAttraction(attraction.id)}
                     key={attraction.id}
                     className="py-3 border-b px-3 hover:bg-sw-main-lighter text-left"
                   >
@@ -95,35 +131,52 @@ function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-scroll">
-        {/* {AllAttractions.map((attraction) => (
-          <Dropdown
-            key={attraction.id}
-            category={attraction.category}
-            attraction={attraction.attractions}
-          />
-        ))} */}
-        {
-          <AttractionDetail
-            id={AttractionDetailMock.id}
-            category={AttractionDetailMock.category}
-            name={AttractionDetailMock.name}
-            description={AttractionDetailMock.description}
-            author={AttractionDetailMock.author}
-            tecnique={AttractionDetailMock.tecnique}
-            material={AttractionDetailMock.material}
-            size={AttractionDetailMock.size}
-            style={AttractionDetailMock.style}
-            country={AttractionDetailMock.country}
-            city={AttractionDetailMock.city}
-            address={AttractionDetailMock.address}
-            images={AttractionDetailMock.images}
-            similars={AttractionDetailMock.similars}
-            coordinates={AttractionDetailMock.coordinates}
-          />
-        }
+        {attractionsLoading && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img className="w-16" src={LoadingGif} alt="loading" />
+            <p>Cargando atracciones</p>
+          </div>
+        )}
+        {attractionsByCategoryLoading && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img className="w-16" src={LoadingGif} alt="loading" />
+            <p>Cargando atracciones por categoría</p>
+          </div>
+        )}
+        {attractionDetailLoading && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <img className="w-16" src={LoadingGif} alt="loading" />
+            <p>Cargando detalle de la atracción</p>
+          </div>
+        )}
+        {/* All Attractions */}
+        <div>
+          {attractions &&
+            showAll &&
+            Array.isArray(attractions) &&
+            attractions.map((attraction) => (
+              <Dropdown
+                key={attraction.id}
+                category={attraction.name}
+                attraction={attraction.attractions}
+              />
+            ))}
+        </div>
+        {/* All Attractions By Category */}
+        <div>
+          {attractionsByCategoryData && showByCategory && (
+            <AttractionsByCategory attractions={attractionsByCategoryData} />
+          )}
+        </div>
+        {/* Attraction Detail */}
+        <div>
+          {attractionDetailData && showSingle && (
+            <AttractionDetail attraction={attractionDetailData} />
+          )}
+        </div>
         <button
-          onClick={() => navigate("/collaborators")}
-          className="text-left flex items-center px-8 gap-x-2 py-5 hover:bg-sw-main-lighter"
+          onClick={() => window.open("/collaborators", "_blank")}
+          className="text-left flex items-center w-full px-8 gap-x-2 py-5 hover:bg-sw-main-lighter"
         >
           <img className="w-10" src={SalleLogo} alt="logo-salle" />
           <div>
