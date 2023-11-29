@@ -23,7 +23,6 @@ class Modals extends React.Component {
         }).then((result) => {
             // al presionar el boton aceptar se imprime en consola el mensaje
           if (result.isConfirmed) {
-            console.log('Registro eliminado');
           }
         });
       };

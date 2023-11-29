@@ -4,41 +4,137 @@ import profilePhoto from "../../../assets/profile_photo_test.jpg";
 import personasSVG from "../../../assets/people_icon.svg";
 import plusSVG from "../../../assets/plus_icon.svg";
 import menuButton from "../../../assets/menu_button.svg";
+import { useNavigate } from "react-router-dom";
+import AttractiveModal from "../../../components/basic/forms/AttractiveModal";
+import CategoryModal from "../../../components/basic/forms/CategoryModal";
+import UserModal from "../../../components/basic/forms/UserModal";
+import AuthorModal from "../../../components/basic/forms/AuthorModal";
+import TecniqueModal from "../../../components/basic/forms/TecniqueModal";
+import MaterialModal from "../../../components/basic/forms/MaterialModal";
+import StyleModal from "../../../components/basic/forms/StyleModal";
 
-const PageLayout = ({ children }) => {
-  const [selectedItem, setSelectedItem] = useState(null);
+import { useEffect } from "react";
+import { getAllCategories } from "../../utils/Services";
+const PageLayout = ({ children, handleSelect, fetchData }) => {
+  const handleFetchData = () =>{
+    fetchData()
+  }
+  const [selectedItem, setSelectedItem] = useState("Usuarios");
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [modalAttractive, setModalAttractiveVisible] = useState(false);
+  const [modalCategory, setModalCategoryVisible] = useState(false);
+  const [modalUser, setModalUserVisible] = useState(false);
+  const [modalAuthor, setModalAuthorVisible] = useState(false);
+  const [modalTecnique, setModalTecniqueVisible] = useState(false);
+  const [modalMaterial, setModalMaterialVisible] = useState(false);
+  const [modalStyle, setModalStyleVisible] = useState(false);
+
+  const navigate = useNavigate(); // Obtiene la función de navegación
+  const [categories, setCategories] = useState([]);
+
+  const name = localStorage.getItem("name").slice(1, -1);
+  const email = localStorage.getItem("email").slice(1, -1);
 
   const options = [
     "Usuarios",
     "Autores",
     "Categorias",
-    "Jardines",
-    "Extramuros",
-    "Exposiciones",
-    "Esculturas",
-    "Edificios",
-    "Auditorios",
+    "Tecnicas",
+    "Materiales",
+    "Estilos",
   ];
 
+  useEffect(() => {
+    getAllCategories(setCategories);
+  }, []);
+
+  const handleCerrarModalAttractive = () => {
+    setModalAttractiveVisible(false);
+  };
+  const handleCerrarModalCategory = () => {
+    setModalCategoryVisible(false);
+  };
+  const handleCerrarModalUser = () => {
+    setModalUserVisible(false);
+  };
+
+  const handleCerrarModalAuthor = () => {
+    setModalAuthorVisible(false);
+  };
+
+  const handleCerrarModalTecnique = () => {
+    setModalTecniqueVisible(false);
+  };
+
+  const handleCerrarModalMaterial = () => {
+    setModalMaterialVisible(false);
+  };
+
+  const handleCerrarModalStyle = () => {
+    setModalStyleVisible(false);
+  };
+
+  const handleOpenAddModal = () => {
+    if (selectedItem === "Categorias") {
+      setModalCategoryVisible(true);
+    } else if (selectedItem === "Usuarios") {
+      setModalUserVisible(true);
+    } else if (selectedItem === "Autores") {
+      setModalAuthorVisible(true);
+    } else if (selectedItem === "Tecnicas") {
+      setModalTecniqueVisible(true);
+    } else if (selectedItem === "Materiales") {
+      setModalMaterialVisible(true);
+    } else if (selectedItem === "Estilos") {
+      setModalStyleVisible(true);
+    } else {
+      setModalAttractiveVisible(true);
+    }
+  };
+
+  useEffect(() => {
+    handleSelect(selectedItem);
+  }, []);
+
   const handleItemClick = (item) => {
-    setSelectedItem(item);
+    if (Array.isArray(item)) {
+      handleSelect(item);
+      setSelectedItem(item[0].name);
+    } else {
+      handleSelect(item);
+      setSelectedItem(item);
+    }
   };
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    navigate("/login");
+  };
+
   return (
     <>
+      {modalAttractive && (
+        <AttractiveModal onClose={handleCerrarModalAttractive} fetchData={handleFetchData} />
+      )}
+      {modalCategory && <CategoryModal onClose={handleCerrarModalCategory}  fetchData={handleFetchData}/>}
+      {modalUser && <UserModal onClose={handleCerrarModalUser}  fetchData={handleFetchData}/>}
+      {modalAuthor && <AuthorModal onClose={handleCerrarModalAuthor}  fetchData={handleFetchData}/>}
+      {modalTecnique && <TecniqueModal onClose={handleCerrarModalTecnique} fetchData={handleFetchData}/>}
+      {modalMaterial && <MaterialModal onClose={handleCerrarModalMaterial} fetchData={handleFetchData}/>}
+      {modalStyle && <StyleModal onClose={handleCerrarModalStyle} fetchData={handleFetchData}/>}
       <div className="fixed bottom-6 right-6">
-        <button className="w-16 h-16 rounded-full bg-sw-blue text-white text-lg flex items-center justify-center shadow-lg">
-          <img
-            src={plusSVG}
-            alt="Plus"
-            width="30"
-            height="30"
-          />
+        <button
+          onClick={handleOpenAddModal}
+          className="w-16 h-16 rounded-full bg-sw-blue text-white text-lg flex items-center justify-center shadow-lg lg:hidden"
+        >
+          <img src={plusSVG} alt="Plus" width="30" height="30" />
         </button>
       </div>
 
@@ -67,7 +163,10 @@ const PageLayout = ({ children }) => {
           <div className="mt-20 text-sm">
             <div>
               <h3 className="text-sw-gray">General</h3>
-              {options.slice(0, 3).map((item) => (
+              <div style={{ maxHeight: "140px", overflowY: "auto", paddingRight:"10px" }}>
+
+              
+              {options.map((item) => (
                 <p
                   key={item}
                   className={`mt-2  p-2 rounded-lg cursor-pointer ${
@@ -78,39 +177,39 @@ const PageLayout = ({ children }) => {
                   {item}
                 </p>
               ))}
+              </div>
             </div>
             <div className="mt-10">
               <h3 className="text-sw-gray">Atracciones</h3>
-              {options.slice(3).map((item) => (
-                <p
-                  key={item}
-                  className={`mt-2 p-2 rounded-lg cursor-pointer ${
-                    selectedItem === item ? "bg-sw-main-lighter" : ""
-                  }`}
-                  onClick={() => handleItemClick(item)}
-                >
-                  {item}
-                </p>
-              ))}
+              <div style={{ maxHeight: "250px", overflowY: "auto", paddingRight:"10px" }}>
+                {categories.map((item) => (
+                  <p
+                    key={item.id}
+                    className={`mt-2 p-2 rounded-lg cursor-pointer ${
+                      selectedItem === item.name ? "bg-sw-main-lighter" : ""
+                    }`}
+                    onClick={() => handleItemClick([item])}
+                  >
+                    {item.name}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full border-t-2 border-sw-main-darker text-xs flex justify-center py-5 ml-2">
+          <div className="absolute bottom-0 left-0 w-full border-t-2 border-sw-main-darker text-xs flex justify-left py-5 pl-8">
             {/* Imagen circular a la izquierda */}
-            <img
-              src={profilePhoto}
-              alt="Foto de perfil"
-              className="w-7 h-7 rounded-full absolute left-4 top-4"
-            />
             {/* Contenedor de texto y botón */}
             <div>
               {/* Nombre */}
-              <p className="font-bold">Alfonso Cano Vargas</p>
+              <p className="font-bold">{name}</p>
 
               {/* Correo (letras más pequeñas y grises) */}
-              <p className="text-[10px] text-sw-gray">alfonso@example.com</p>
+              <p className="text-[10px] text-sw-gray">{email}</p>
 
               {/* Botón de Cerrar Sesión */}
-              <button className="mt-2 text-[10px]">Cerrar Sesión</button>
+              <button className="mt-2 text-[10px]" onClick={handleLogout}>
+                Cerrar Sesión
+              </button>
             </div>
           </div>
         </div>
@@ -119,9 +218,12 @@ const PageLayout = ({ children }) => {
           {/* Rectángulo superior con título (fijo en la parte superior) */}
           <div className="bg-white bg-gray-border border-sw-main-darker h-24 lg:h-36 border-b flex flex-col justify-center sticky top-0 z-30">
             <div className="flex items-center justify-between lg:mb-4 px-7 lg:px-5">
-              <h1 className="text-xl text-sw-black font-semibold">
-                Categorías
-              </h1>
+              {selectedItem && (
+                <h1 className="text-xl text-sw-black font-semibold">
+                  {selectedItem}
+                </h1>
+              )}
+
               <button className="lg:hidden " onClick={toggleSidebar}>
                 <img
                   src={menuButton}
@@ -131,8 +233,8 @@ const PageLayout = ({ children }) => {
                 />
               </button>
             </div>
-            <div className="hidden lg:flex justify-between text-sm pt-4 border-t-2 border-sw-main-darker px-5">
-              <button className="bg-white rounded-lg p-1 px-3 flex items-center border-2 border-sw-main-darker">
+            <div className="hidden lg:flex justify-between text-sm pt-4 border-t-2 border-sw-main-darker px-5 lg:justify-end">
+              {/*<button className="bg-white rounded-lg p-1 px-3 flex items-center border-2 border-sw-main-darker">
                 <span className="mr-2">
                   <img
                     src={personasSVG}
@@ -141,9 +243,12 @@ const PageLayout = ({ children }) => {
                     height="15"
                   />
                 </span>
-                <span className="text-sw-gray">Filtrar por autor</span>
-              </button>
-              <button className="bg-sw-blue rounded-lg p-1 px-3 flex items-center">
+                 <span className="text-sw-gray">Filtrar por autor</span>
+              </button>*/}
+              <button
+                onClick={handleOpenAddModal}
+                className="bg-sw-blue rounded-lg p-1 px-3 flex items-center"
+              >
                 <img
                   src={plusSVG}
                   alt="Plus"
@@ -157,7 +262,7 @@ const PageLayout = ({ children }) => {
           </div>
 
           {/* Espacio para contenido (con margen superior para dejar espacio al título) */}
-          <div className="lg:p-4 rounded shadow">{children}</div>
+          <div className="lg:p-4 ">{children}</div>
         </div>
       </div>
     </>

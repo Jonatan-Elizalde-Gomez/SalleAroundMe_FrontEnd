@@ -1,7 +1,7 @@
 import React from "react";
 import CardButtons from "../buttons/ButtonCard";
 
-export default function CardCategory({ data, selectedCard, fetchData }) {
+export default function CardTecnique({ data,selectedCard, fetchData }) {
   const handlefetchData = () =>{fetchData()}
   return (
     <div className="flex rounded-xl border border-zinc-200 bg-white px-7 py-5 mb-4">
