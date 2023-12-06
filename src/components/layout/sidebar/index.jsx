@@ -22,7 +22,7 @@ function Sidebar() {
 
   const { handleGetAllAttractions } = useMapAllAttractions();
   const { handleGetAttractionById } = useMapAttraction();
-  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleDeactivateCategoryButton } = useMapCategoryButtons();
   const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
 
   const { data: attractionsData, loading: attractionsLoading } = useAppSelector(
@@ -48,7 +48,7 @@ function Sidebar() {
 
   const handleDetailAttraction = (id) => {
     handleResetAllAttractionsByCategory();
-    handleDectivateCategoryButton();
+    handleDeactivateCategoryButton();
     handleCloseSearchItems();
     handleGetAttractionById(id);
   };
@@ -68,8 +68,8 @@ function Sidebar() {
   return (
     <div
       className={`w-full absolute transition-all duration-300  ${
-        positionPanel ? "bottom-0" : "bottom-[-80%]"
-      }  rounded-t-xl lg:bottom-0 lg:rounded-none lg:relative lg:w-[35vw] h-screen bg-white shadow-md flex flex-col z-10`}
+        positionPanel ? "bottom-[-15%]" : "bottom-[-100%]"
+      }  rounded-t-xl lg:bottom-0 lg:rounded-none lg:relative lg:w-[35vw] h-screen overflow-y-scroll bg-white shadow-md flex flex-col z-10`}
     >
       <div className="p-6 flex items-center gap-x-4 bg-white border-b">
         <div className="flex relative w-full">

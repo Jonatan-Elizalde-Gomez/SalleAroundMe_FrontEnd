@@ -4,10 +4,10 @@ import useMapCategoryButtons from "../../../hooks/useMapCategoryButtons";
 function CardWeb({ id, category, name, description, img }) {
   
   const { handleGetAttractionById } = useMapAttraction();
-  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleDeactivateCategoryButton } = useMapCategoryButtons();
   
   const handleDetailAttraction = () => {
-    handleDectivateCategoryButton();
+    handleDeactivateCategoryButton();
     handleGetAttractionById(id);
   };
 

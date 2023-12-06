@@ -80,7 +80,7 @@ export const collaborators = [
       {
         fullname: "Díaz Rubio José Alejandro ",
         image: "",
-        description: "soy joto joto joto",
+        description: "Como mi tío dice...",
         linkedin: "https://www.linkedin.com/in/drjalejandro",
         github: "",
         email: "drjalejandro@outlook.com",

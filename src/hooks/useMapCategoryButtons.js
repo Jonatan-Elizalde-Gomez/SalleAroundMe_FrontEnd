@@ -8,13 +8,13 @@ const useMapCategoryButtons = () => {
     dispatch(activateCategoryButton());
   };
 
-  const handleDectivateCategoryButton = () => {
+  const handleDeactivateCategoryButton = () => {
     dispatch(deactivateCategoryButton());
   };
 
   return {
     handleActivateCategoryButton,
-    handleDectivateCategoryButton,
+    handleDeactivateCategoryButton,
   };
 };
 

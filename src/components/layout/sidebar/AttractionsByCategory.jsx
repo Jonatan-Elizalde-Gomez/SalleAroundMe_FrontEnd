@@ -7,10 +7,10 @@ import CardWeb from "../../basic/cards/CardWeb";
 function AttractionsByCategory({ attractions }) {
   const { handleShowAllAttractions } = useMapAllAttractions();
   const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
-  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleDeactivateCategoryButton } = useMapCategoryButtons();
 
   const handleReturn = () => {
-    handleDectivateCategoryButton();
+    handleDeactivateCategoryButton();
     handleShowAllAttractions();
     handleResetAllAttractionsByCategory();
   };

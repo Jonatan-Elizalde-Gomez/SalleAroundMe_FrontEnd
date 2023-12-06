@@ -33,17 +33,31 @@ function WebApp() {
   const [selectedCategory, setSelectedCategory] = useState(
     selectedCategoryButton
   );
+  const [loc, setLoc] = useState({
+    current: [],
+    prev: [],
+  });
 
   const { handleGetCategories } = useMapCategories();
-  const { handleGetNearestAttractions, handleReset } = useMapNearestAttractions();
+  const { handleGetNearestAttractions, handleReset } =
+    useMapNearestAttractions();
   const sallePosition = { lat: 21.152073200803656, lng: -101.71124458732997 };
 
   const handleGetCurrentUserLocation = () => {
-    console.log('Ejecutado xd')
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setUserLocation({ lat: latitude, lng: longitude });
     });
+  };
+
+  // calculate the angle between previous and new positions
+  const calculateRotationAngle = (id, newLat, newLng) => {
+    if (loc?.current?.length > 0 && loc.prev?.length > 0) {
+      let { lat, lng } = loc.prev.find((mar) => mar.id === id);
+      const angle = Math.atan2(newLng - lng, newLat - lat) * (180 / Math.PI);
+      return angle;
+    }
+    return 90;
   };
 
   useEffect(() => {
@@ -68,9 +82,22 @@ function WebApp() {
   }, [data]);
 
   useEffect(() => {
+    // Update previous positions when userLocation changes
+    if (userLocation) {
+      setLoc((prevLoc) => ({
+        current: [
+          ...prevLoc.current,
+          { id: "user", lat: userLocation.lat, lng: userLocation.lng },
+        ],
+        prev: prevLoc.current,
+      }));
+    }
+  }, [userLocation]);
+
+  useEffect(() => {
     // Obtener la ubicación actual del navegador
     handleGetCurrentUserLocation();
-/*     const intervalId = setInterval(() => {
+    /*     const intervalId = setInterval(() => {
       handleReset();
       handleGetCurrentUserLocation();
     }, 30000);
@@ -89,7 +116,7 @@ function WebApp() {
           <p>Colaboradores</p>
         </button>
 
-        <div className="absolute flex flex-wrap gap-y-2 gap-x-8 left-3 lg:left-11 top-5 z-[5]">
+        <div className="absolute pb-3 w-[95%] overflow-x-scroll md:overflow-x-hidden flex md:flex-wrap gap-y-2 gap-x-3 md:gap-x-8 left-3 lg:left-11 top-3 md:top-5 z-[5]">
           {categories &&
             categories.map((category) => (
               <CategoryBtn
@@ -103,9 +130,17 @@ function WebApp() {
         </div>
         {/* ======= Map ======= */}
         <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-          <Map center={sallePosition} zoom={18}>
+          <Map gestureHandling="greedy" center={sallePosition} zoom={18}>
             <Marker
-              icon={{ url: require("../assets/felinoMarker.svg").default }}
+              //icon={{ url: require("../assets/felinoMarker.svg").default }}
+              icon={{
+                url: require("../assets/felinoMarker.svg").default,
+                rotation: calculateRotationAngle(
+                  "user",
+                  userLocation?.lat,
+                  userLocation?.lng
+                ),
+              }}
               position={userLocation}
             />
             {attractionsByCategoryData &&
