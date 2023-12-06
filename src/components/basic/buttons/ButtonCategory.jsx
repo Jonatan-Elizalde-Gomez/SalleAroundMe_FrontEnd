@@ -11,7 +11,7 @@ function CategoryBtn({ id, category, selectedCategory, onSelectCategory }) {
     handleResetAllAttractionsByCategory,
   } = useMapAttractionsByCategory();
   const { handleShowAllAttractions } = useMapAllAttractions();
-  const { handleActivateCategoryButton, handleDectivateCategoryButton } =
+  const { handleActivateCategoryButton, handleDeactivateCategoryButton } =
     useMapCategoryButtons();
   const { handleResetAttraction } = useMapAttraction();
   const { selectedCategoryButton } = useAppSelector(
@@ -23,7 +23,7 @@ function CategoryBtn({ id, category, selectedCategory, onSelectCategory }) {
     if (selectedCategory === category) {
       onSelectCategory(null);
       handleShowAllAttractions(id);
-      handleDectivateCategoryButton();
+      handleDeactivateCategoryButton();
       handleResetAllAttractionsByCategory();
       handleResetAttraction();
     } else {

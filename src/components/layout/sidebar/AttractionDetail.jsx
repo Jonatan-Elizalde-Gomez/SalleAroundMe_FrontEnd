@@ -28,12 +28,12 @@ function AttractionDetail({ attraction }) {
 
   const { handleShowAllAttractions } = useMapAllAttractions();
   const { handleResetAllAttractionsByCategory } = useMapAttractionsByCategory();
-  const { handleDectivateCategoryButton } = useMapCategoryButtons();
+  const { handleDeactivateCategoryButton } = useMapCategoryButtons();
   const { handleResetAttraction } = useMapAttraction();
 
   const handleReturn = () => {
     handleShowAllAttractions();
-    handleDectivateCategoryButton();
+    handleDeactivateCategoryButton();
     handleResetAllAttractionsByCategory();
     handleResetAttraction();
   };
